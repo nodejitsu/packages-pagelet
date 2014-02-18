@@ -1,0 +1,31 @@
+{
+  "name": "packages-pagelet",
+  "version": "0.0.0",
+  "description": "Pagelet for rendering a npm package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nodejitsu/packages-pagelet.git"
+  },
+  "keywords": [
+    "pagelet",
+    "bigpipe",
+    "npm",
+    "package",
+    "page"
+  ],
+  "author": "Arnout Kazemier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodejitsu/packages-pagelet/issues"
+  },
+  "homepage": "https://github.com/nodejitsu/packages-pagelet",
+  "dependencies": {
+    "pagelet": "0.0.x",
+    "renderme": "0.0.x",
+    "shrinkwrap": "0.1.x"
+  }
+}
