@@ -60,8 +60,8 @@ function resolve(name, registry, next) {
  */
 function reduce(data, fn) {
 
-  delete data.package._attachments;
   delete data.package.readmeFilename;
+  delete data.package.versions;
   delete data.package.readme;
 
   //
