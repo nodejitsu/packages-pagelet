@@ -57,7 +57,7 @@ function resolve(name, registry, next) {
  * @api private
  */
 function reduce(data, fn) {
-
+  fn(undefined, data);
 }
 
 //

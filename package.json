@@ -4,7 +4,7 @@
   "description": "Pagelet for rendering a npm package",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha $(find test -name '*.test.js')"
   },
   "repository": {
     "type": "git",
@@ -24,10 +24,15 @@
   },
   "homepage": "https://github.com/nodejitsu/packages-pagelet",
   "dependencies": {
+    "async": "0.2.x",
     "npmjs": "0.0.x",
     "pagelet": "0.0.x",
     "renderme": "0.0.x",
-    "shrinkwrap": "0.1.x",
-    "async": "~0.2.10"
+    "shrinkwrap": "0.1.x"
+  },
+  "devDependencies": {
+    "chai": "1.9.x",
+    "mocha": "1.17.x",
+    "pre-commit": "0.0.x"
   }
 }

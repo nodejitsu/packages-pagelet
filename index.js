@@ -3,7 +3,7 @@
 var npm = require('npmjs')
   , Pagelet = require('pagelet')
   , resolve = require('./resolve')
-  , major = require('./package.json').version.slice(1);
+  , major = require('./package.json').version.slice(0, 1);
 
 Pagelet.extend({
   //
