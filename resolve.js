@@ -25,6 +25,8 @@ function resolve(name, registry, next) {
   npm.packages.details(name, function details(err, data) {
     if (err) return next(err);
 
+    data = Array.isArray(data) ? data.pop() : data;
+
     //
     // Retreive some additional information and pre-parse some information.
     //
@@ -57,6 +59,22 @@ function resolve(name, registry, next) {
  * @api private
  */
 function reduce(data, fn) {
+
+  delete data.package._attachments;
+  delete data.package.readmeFilename;
+  delete data.package.readme;
+
+  //
+  // Remove circular references as it would prevent us from caching in Redis or
+  // what ever because there's a circular reference.
+  //
+  if ('object' === typeof data.dependent) {
+    Object.keys(data.dependent).forEach(function each(id) {
+      delete data.dependent[id].dependent;
+      delete data.dependent[id].parent;
+    });
+  }
+
   fn(undefined, data);
 }
 
