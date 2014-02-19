@@ -1,9 +1,9 @@
 'use strict';
 
-var Shrinkwrap = require('shrinkwrap')
+var npm = require('npmjs')
   , Pagelet = require('pagelet')
-  , readme = require('renderme')
-  , Registry = require('npmjs');
+  , resolve = require('./resolve')
+  , major = require('./package.json').version.slice(1);
 
 Pagelet.extend({
   //
@@ -12,34 +12,29 @@ Pagelet.extend({
   view: 'view.ejs',       // The template that gets rendered.
   css:  'css.styl',       // All CSS required to render this component.
   js:   'package.js',     // Progressive enhancements for the UI.
+  resolve: resolve,       // Expose the resolver so it can be overridden.
 
   /**
+   * The default registry we should use when resolving package information.
    *
-   * @param {String} name The name of the package.
-   * @param {String} registry The optional registry we should use.
-   * @param {Function} next The callback.
-   * @api private
+   * @type {String}
+   * @api public
    */
-  resolve: function resolve(name, registry, next) {
-    if ('function' === typeof registry) {
-      next = registry;
-      registry = this.registry || Registry.mirrors.nodejitsu;
-    }
+  registry: npm.mirrors.nodejitsu,
 
-    var shrinkwrap = new Shrinkwrap({ registry: registry })
-      , npm = new Registry({ registry: registry });
-
-    npm.packages.details(name, function details(err, data) {
-      if (err) return next(err);
-
-      shrinkwrap.resolve(data, function resolve(err, pkg, dependencies) {
-        if (err) return next(err);
-
-        //
-        // @TODO merge data
-        //
-      });
-    });
+  /**
+   * Return the cache key for a given module. By default we are prefixing the
+   * names with the major version number of this module. As we want to be able
+   * to change the structure of the data without creating potential cache
+   * conflicts. In addition to that this prevent potential dictionary attacks
+   * where people use __proto__ as package name.
+   *
+   * @param {String} name The name of the module.
+   * @returns {String} The cache key.
+   * @api public
+   */
+  key: function key(name) {
+    return 'v'+ major +':'+ name;
   },
 
   /**
@@ -50,6 +45,53 @@ Pagelet.extend({
    * @api private
    */
   render: function render(next) {
+    var name = this.params.name
+      , key = this.key(name)
+      , pagelet = this
+      , data;
 
+    if (this.cache) {
+      //
+      // Determine if we have a `sync` or `async` cache implementation. If it
+      // accepts 2 arguments it's async as it requires a `key` and `callback`
+      // argument.
+      //
+      if (this.cache.get.length === 1) {
+        data = this.cache.get(key);
+
+        if (data) return next(undefined, data);
+      } else if (this.cache.get.length === 2) {
+        return this.cache.get(key, function cached(err, data) {
+          if (!err && data) return next(undefined, data);
+
+          //
+          // No data or an error, resolve the data structure and attempt to
+          // store it again.
+          //
+          pagelet.resolve(name, pagelet.registry, function resolved(err, data) {
+            //
+            // Store and forget, we should delay the rendering procedure any
+            // longer as manually resolving took to damn much time.
+            //
+            if ('function' === typeof pagelet.cache.set && !err) {
+              pagelet.cache.set(key, data, function nope() {});
+            }
+
+            next(err, data);
+          });
+        });
+      }
+    }
+
+    //
+    // No cache resolve it on the fly, which would be slow-ish.
+    //
+    this.resolve(name, this.registry, next);
   }
 }).on(module);
+
+//
+// Also expose the `resolve` method on the Pagelet instance so we can use this
+// to pre-populate a cache.
+//
+module.exports.resolve = resolve;
