@@ -1,2 +1,128 @@
 @import syntax
 @import code
+
+*
+  box-sizing: border-box
+
+//
+// Custom markdown code that shouldn't affect the rest of page.
+//
+.markdown
+  font-family: "proxima-nova-1","proxima-nova-2", Helvetica, arial, freesans, clean, sans-serif
+  font-size: 15px
+  line-height: 1.7
+
+  a
+    color: #4183C4
+    text-decoration: none
+
+    &:hover
+      text-decoration: underline
+
+  h1,
+  h2,
+  h3,
+  h3,
+  h4,
+  h5,
+  h6
+    margin: 1em 0 15px
+    padding: 0
+    font-weight: bold
+    line-height: 1.7
+    cursor: text
+    position: relative
+
+  h1
+    border-bottom: 1px solid #DDD
+    font-size: 2.5em
+
+  h2
+    font-size: 2em
+
+  h3
+    font-size: 1.5em
+
+  h4
+    font-size: 1.2em
+
+  h5
+    font-size: 1em
+
+  h6
+    font-size: 1em
+    color: #777
+
+  ul,
+  ol
+    margin: 0
+    padding: 0 0 0 15px
+
+  p,
+  ul,
+  ol,
+  dl,
+  table,
+  blockquote
+    margin: 15px 0
+
+  ul ul,
+  ul ol,
+  ol ol,
+  ol ul
+    margin-top: 0
+    margin-bottom: 0
+
+  code
+  pre
+  kbd
+  samp
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+
+  code
+    background-color: #FAFAFA
+    border-radius: 3px
+    border: 1px solid #DDD
+    display: inline-block
+    line-height: 1.3
+    margin: 0
+    font-size: 12px
+    max-width: 100%
+    overflow: auto
+    padding: 0
+    vertical-align: middle
+
+    &:before
+    &:after
+      content: "\00a0"  // Extra spacing
+
+  table:not(.highlighttable)
+    border-collapse: collapse
+    border-spacing: 0
+    width: 100%
+
+    tr
+      background-color: #FFF
+      border-top: 1px solid #CCC
+
+      &:nth-child(2n)
+        background-color: #F8F8F8
+
+    td,
+    th
+      border: 1px solid #DDD
+      padding: 6px 13px
+
+  dl
+    padding: 0
+
+    dt
+      font-size: 14px
+      font-style: italic
+      font-weight: bold
+      margin-top: 15px
+      padding: 0
+
+    dd
+      margin-bottom: 15px
+      padding: 0 15px
