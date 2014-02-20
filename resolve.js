@@ -75,6 +75,11 @@ function reduce(data, fn) {
     });
   }
 
+  //
+  // Make sure we default to something so we don't get template errors
+  //
+  data.readme = data.readme || data.package.description || '';
+
   fn(undefined, data);
 }
 
