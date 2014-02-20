@@ -28,7 +28,7 @@ function resolve(name, registry, next) {
     data = Array.isArray(data) ? data.pop() : data;
 
     //
-    // Retreive some additional information and pre-parse some information.
+    // Retrieve some additional information and pre-parse some information.
     //
     async.parallel({
       dependent: function render(next) {
