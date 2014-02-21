@@ -70,6 +70,7 @@ function reduce(data, fn) {
   //
   if ('object' === typeof data.dependent) {
     Object.keys(data.dependent).forEach(function each(id) {
+      delete data.dependent[id].dependencies;
       delete data.dependent[id].dependent;
       delete data.dependent[id].parent;
     });
