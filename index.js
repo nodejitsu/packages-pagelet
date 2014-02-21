@@ -15,6 +15,18 @@ Pagelet.extend({
   resolve: resolve,       // Expose the resolver so it can be overridden.
 
   /**
+   * There are parts of page that could require Github API access. As you might
+   * know there is rate limiting in place for API calls. Unauthorized calls are
+   * 60 RPH (requests per hour) and authorized is 5000 RPH. You can create an
+   * authorized githulk instance which we will be used instead of a default
+   * unauthorized githulk.
+   *
+   * @type {Githulk|Null}
+   * @api public
+   */
+  githulk: null,
+
+  /**
    * The default registry we should use when resolving package information.
    *
    * @type {String}
