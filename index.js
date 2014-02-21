@@ -80,7 +80,10 @@ Pagelet.extend({
           // No data or an error, resolve the data structure and attempt to
           // store it again.
           //
-          pagelet.resolve(name, pagelet.registry, function resolved(err, data) {
+          pagelet.resolve(name, {
+            registry: pagelet.registry,
+            githulk: pagelet.githulk
+          }, function resolved(err, data) {
             //
             // Store and forget, we should delay the rendering procedure any
             // longer as manually resolving took to damn much time.
@@ -98,7 +101,10 @@ Pagelet.extend({
     //
     // No cache resolve it on the fly, which would be slow-ish.
     //
-    this.resolve(name, this.registry, next);
+    this.resolve(name, {
+      registry: this.registry,
+      githulk: this.githulk
+    }, next);
   }
 }).on(module);
 
