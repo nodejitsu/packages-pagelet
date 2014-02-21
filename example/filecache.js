@@ -45,7 +45,7 @@ Filecache.prototype.get = function get(name, fn) {
  * @api public
  */
 Filecache.prototype.set = function set(name, data, fn) {
-  try { data = JSON.stringify(data); }
+  try { data = JSON.stringify(data, null, 2); }
   catch(e) { return fn(e); }
 
   fs.writeFile(path.join(this.directory, '/'+ name +'.json'), data, fn);
