@@ -74,7 +74,11 @@
       <tr>
         <td class="name"><%= dependency.name %></td>
         <td class="version"><%= dependency.version %></td>
-        <td class="license"><%= dependency.license %></td>
+        <td class="license">
+          <% if (dependency.licenses) { %>
+            <%= dependency.licenses.join('') %>
+          <% } %>
+        </td>
       </tr>
       <% }); %>
     </tbody>
