@@ -32,4 +32,17 @@ describe('resolve', function () {
   it('can JSON.stringify the data structure', function () {
     JSON.stringify(data);
   });
+
+  describe('resolving complex multi moduled packages', function () {
+    [
+      'browserify',
+      'jitsu'
+    ].forEach(function (name) {
+      it('resolves `'+ name +'`', function (done) {
+        resolve(name, function resolved(err, obj) {
+          done(err, JSON.stringify(data));
+        });
+      });
+    });
+  });
 });
