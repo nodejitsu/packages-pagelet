@@ -2,7 +2,7 @@
 
 var Shrinkwrap = require('shrinkwrap')
   , readme = require('renderme')
-  , Registry = require('npmjs')
+  , Registry = require('npm.js')
   , async = require('async')
   , GitHulk = readme.GitHulk;
 

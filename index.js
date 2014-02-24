@@ -1,6 +1,6 @@
 'use strict';
 
-var npm = require('npmjs')
+var npm = require('npm.js')
   , Pagelet = require('pagelet')
   , resolve = require('./resolve')
   , major = require('./package.json').version.slice(0, 1);
