@@ -1,132 +1,134 @@
 <article class="package">
-  <h1>
-    <%= package.name %>
-    <% if (package.description) { %>
-    <small><%= package.description %></small>
+  <div class="details markdown">
+    <h1>
+      <%= package.name %>
+      <% if (package.description) { %>
+      <small><%= package.description %></small>
+      <% } %>
+    </h1>
+
+    <h5>Install this module by running</h5>
+    <pre>npm install --save <%= package.name %></pre>
+
+    <% if (package.github) { %>
+    <h5>Clone this module using</h5>
+    <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
     <% } %>
-  </h1>
 
-  <h5>Install this module by running</h5>
-  <pre>npm install --save <%= package.name %></pre>
-
-  <% if (package.github) { %>
-  <h5>Clone this module using</h5>
-  <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
-  <% } %>
-
-  <% if (package.created) { %>
-  <dl>
-    <dt>Created</dt>
-    <dd><%= package.created.human %></dd>
-  </dl>
-  <% } %>
-
-  <% if (package.modified) { %>
-  <dl>
-    <dt>Last modified</dt>
-    <dd>
-      <%= package.modified.human %>
-      <small><%= package.modified.ago %></small>
-    </dd>
-  </dl>
-  <% } %>
-
-  <% if (package.keywords) { %>
-  <dl>
-    <dt>keywords</dt>
-    <dd><%= package.keywords.join(', ') %></dd>
-  </dl>
-  <% } %>
-
-  <% if (package.version) { %>
-  <dl>
-    <dt>Version</dt>
-    <dd><%= package.version %></dd>
-  </dl>
-  <% } %>
-
-  <% if (package.licenses) { %>
-  <dl>
-    <dt>License</dt>
-    <dd><%= package.licenses.join(', ') %></dd>
-  </dl>
-  <% } %>
-
-  <% if (package.github) { %>
-  <dl>
-    <dt>Donate</dt>
-    <dd>
-      <a href="https://www.gittip.com/on/github/<%= package.github.user%>/">
-        @<%= package.github.user %> on gittip
-      </a>
-    </dd>
-  </dl>
-  <% } %>
-
-  <% if (shrinkwrap.length) { %>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Version</th>
-        <th>License</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% shrinkwrap.forEach(function (dependency) { %>
-      <tr>
-        <td class="name"><%= dependency.name %></td>
-        <td class="version"><%= dependency.version %></td>
-        <td class="license">
-          <% if (dependency.licenses) { %>
-            <%= dependency.licenses.join('') %>
-          <% } %>
-        </td>
-      </tr>
-      <% }); %>
-    </tbody>
-    <% if (shrinkwrap.length > 5) { %>
-    <tfoot>
-      <tr>
-        <td colspan="3">
-          Show all <%= shrinkwrap.length %> dependencies
-        </td>
-      </tr>
-    </tfoot>
+    <% if (package.created) { %>
+    <dl>
+      <dt>Created</dt>
+      <dd><%= package.created.human %></dd>
+    </dl>
     <% } %>
-  </table>
-  <% } %>
 
-  <% if (package.time && package.releases.length) { %>
-  <table>
-    <thead>
-      <tr>
-        <th>Version</th>
-        <th>Release date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% package.releases.forEach(function (version) { %>
-      <tr>
-        <td class="version"><%= version %></td>
-        <td class="date">
-          <%= package.time[version].human %>
-          <small><%= package.time[version].ago %></small>
-        </td>
-      </tr>
-      <% }); %>
-    </tbody>
-    <% if (package.releases.length > 5) { %>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          Show all <%= package.releases.length %> releases
-        </td>
-      </tr>
-    </tfoot>
+    <% if (package.modified) { %>
+    <dl>
+      <dt>Last modified</dt>
+      <dd>
+        <%= package.modified.human %>
+        <small><%= package.modified.ago %></small>
+      </dd>
+    </dl>
     <% } %>
-  </table>
-  <% } %>
+
+    <% if (package.keywords) { %>
+    <dl>
+      <dt>keywords</dt>
+      <dd><%= package.keywords.join(', ') %></dd>
+    </dl>
+    <% } %>
+
+    <% if (package.version) { %>
+    <dl>
+      <dt>Version</dt>
+      <dd><%= package.version %></dd>
+    </dl>
+    <% } %>
+
+    <% if (package.licenses) { %>
+    <dl>
+      <dt>License</dt>
+      <dd><%= package.licenses.join(', ') %></dd>
+    </dl>
+    <% } %>
+
+    <% if (package.github) { %>
+    <dl>
+      <dt>Donate</dt>
+      <dd>
+        <a href="https://www.gittip.com/on/github/<%= package.github.user%>/">
+          @<%= package.github.user %> on gittip
+        </a>
+      </dd>
+    </dl>
+    <% } %>
+
+    <% if (shrinkwrap.length) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Version</th>
+          <th>License</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% shrinkwrap.forEach(function (dependency) { %>
+        <tr>
+          <td class="name"><%= dependency.name %></td>
+          <td class="version"><%= dependency.version %></td>
+          <td class="license">
+            <% if (dependency.licenses) { %>
+              <%= dependency.licenses.join(', ') %>
+            <% } %>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+      <% if (shrinkwrap.length > 5) { %>
+      <tfoot>
+        <tr>
+          <td colspan="3">
+            Show all <%= shrinkwrap.length %> dependencies
+          </td>
+        </tr>
+      </tfoot>
+      <% } %>
+    </table>
+    <% } %>
+
+    <% if (package.time && package.releases.length) { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Release date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% package.releases.forEach(function (version) { %>
+        <tr>
+          <td class="version"><%= version %></td>
+          <td class="date">
+            <%= package.time[version].human %>
+            <small><%= package.time[version].ago %></small>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+      <% if (package.releases.length > 5) { %>
+      <tfoot>
+        <tr>
+          <td colspan="2">
+            Show all <%= package.releases.length %> releases
+          </td>
+        </tr>
+      </tfoot>
+      <% } %>
+    </table>
+    <% } %>
+  </div>
 
   <% if ('readme' in locals) { %>
   <article class="markdown">
