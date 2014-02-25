@@ -3,8 +3,13 @@
 var Shrinkwrap = require('shrinkwrap')
   , readme = require('renderme')
   , Registry = require('npm.js')
-  , async = require('async')
-  , GitHulk = readme.GitHulk;
+  , moment = require('moment')
+  , async = require('async');
+
+//
+// Re-use the Github instance from `renderme`.
+//
+var GitHulk = readme.GitHulk;
 
 /**
 * Gather all the required data to correctly render a package page.
@@ -89,6 +94,29 @@ function reduce(data, fn) {
   // Make sure we default to something so we don't get template errors
   //
   data.readme = data.readme || data.package.description || '';
+
+  //
+  // Make all dates human readable.
+  //
+  if (data.package.time) Object.keys(data.package.time).forEach(function (time) {
+    var date = data.package.time[time];
+
+    data.package.time[time] = {
+      human: moment(date).format('MMM Do YYYY'),
+      ago: moment(date).fromNow(),
+      full: date
+    };
+  });
+
+  ['created', 'modified'].forEach(function (time) {
+    var date = data.package[time];
+
+    data.package[time] = {
+      human: moment(date).format('MMM Do YYYY'),
+      ago: moment(date).fromNow(),
+      full: date
+    };
+  });
 
   //
   // Transform shrinkwrap to an array.
