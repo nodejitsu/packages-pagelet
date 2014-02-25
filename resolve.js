@@ -69,10 +69,9 @@ function resolve(name, options, next) {
  * @api private
  */
 function reduce(data, fn) {
-
-  delete data.package.readmeFilename;
-  delete data.package.versions;
-  delete data.package.readme;
+  delete data.package.readmeFilename;   // README is already parsed.
+  delete data.package.versions;         // Adds to much bloat.
+  delete data.package.readme;           // README is already parsed.
 
   //
   // Remove circular references as it would prevent us from caching in Redis or
