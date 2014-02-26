@@ -7,13 +7,24 @@
       <% } %>
     </h1>
 
-    <h5>Install this module by running</h5>
+    <h3>Install this module by running</h3>
     <pre>npm install --save <%= package.name %></pre>
 
     <% if (package.github) { %>
-    <h5>Clone this module using</h5>
+    <h3>Clone this module using</h3>
     <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
     <% } %>
+
+    <% if (package.maintainers.length) { %>
+    <h2>Maintainers</h2>
+    <% package.maintainers.forEach(function (maintainer) { %> 
+    <div class="maintainer">
+      <% if (maintainer.gravatar) { %>
+      <img src="<%= maintainer.gravatar %>?s=120" alt="<%= maintainer.name %>" class="gravatar">
+      <% } %>
+      <strong class="name"><%= maintainer.name %></strong>
+    </div>
+    <% });} %>
 
     <% if (package.created) { %>
     <dl>
@@ -100,7 +111,7 @@
     <% } %>
 
     <% if (shrinkwrap.length) { %>
-    <table>
+    <table class="more">
       <thead>
         <tr>
           <th>Name</th>
@@ -109,8 +120,8 @@
         </tr>
       </thead>
       <tbody>
-        <% shrinkwrap.forEach(function (dependency) { %>
-        <tr>
+        <% shrinkwrap.forEach(function (dependency, index) { %>
+        <tr class="<%= index >= 5 ? 'row gone' : 'row' %>">
           <td class="name">
             <a href="/packages/<%= dependency.name %>"><%= dependency.name %></a>
           </td>
@@ -138,7 +149,7 @@
     <% } %>
 
     <% if (package.time && package.releases.length) { %>
-    <table>
+    <table class="more">
       <thead>
         <tr>
           <th>Version</th>
@@ -146,8 +157,8 @@
         </tr>
       </thead>
       <tbody>
-        <% package.releases.forEach(function (version) { %>
-        <tr>
+        <% package.releases.forEach(function (version, index) { %>
+        <tr class="<%= index >= 5 ? 'row gone' : 'row' %>">
           <td class="version"><%= version %></td>
           <td class="date" data-date="<%= package.time[version].full %>">
             <%= package.time[version].human %>

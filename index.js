@@ -14,6 +14,14 @@ Pagelet.extend({
   js:   'package.js',     // Progressive enhancements for the UI.
   resolve: resolve,       // Expose the resolver so it can be overridden.
 
+  //
+  // External dependencies that should be included on the page using a regular
+  // script tag. This dependency is needed forthe `package.js` client file.
+  //
+  dependencies: [
+    'http://code.jquery.com/jquery-2.1.0.min.js'
+  ],
+
   /**
    * There are parts of page that could require Github API access. As you might
    * know there is rate limiting in place for API calls. Unauthorized calls are

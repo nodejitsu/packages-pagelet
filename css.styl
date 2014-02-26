@@ -4,6 +4,62 @@
 *
   box-sizing: border-box
 
+.details
+  font-family: "proxima-nova-1","proxima-nova-2", Helvetica, arial, freesans, clean, sans-serif
+  font-size: 15px
+  line-height: 1.7
+
+  dt
+    font-weight: bold
+    padding: 10px 0
+
+  dd
+    padding: 10px 0
+
+    a
+      margin-right: 10px
+      display: inline-block
+
+  .gravatar
+    background-repeat: no-repeat
+    background-size: cover
+    border-radius: 100px
+    float: left
+    font-weight: bold
+    height: 50px
+    line-height: @height
+    margin-right: 100px
+    text-indent: @height + 20
+    width: @height
+
+  pre
+    padding: 12px
+    background: #FFF
+    border: 1px solid #DDD
+
+  table.more
+    border-collapse: collapse
+    border-spacing: 0
+
+    tr
+      background-color: #FFF
+      border-top: 1px solid #CCC
+
+      &:nth-child(2n)
+        background-color: #F8F8F8
+
+    .gone
+      display: none
+
+  h1
+    font-size: 36px
+
+    small
+      font-size: 16px
+      display: block
+      font-weight: normal
+      color: #A5A5A5
+
 //
 // Custom markdown code that shouldn't affect the rest of page.
 //
