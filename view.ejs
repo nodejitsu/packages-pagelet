@@ -1,5 +1,5 @@
 <article class="package">
-  <div class="details markdown">
+  <div class="details">
     <h1>
       <%= package.name %>
       <% if (package.description) { %>
@@ -18,14 +18,16 @@
     <% if (package.created) { %>
     <dl>
       <dt>Created</dt>
-      <dd><%= package.created.human %></dd>
+      <dd class="date" data-date="<%= package.created.full %>">
+        <%= package.created.human %>
+      </dd>
     </dl>
     <% } %>
 
     <% if (package.modified) { %>
     <dl>
       <dt>Last modified</dt>
-      <dd>
+      <dd class="date" data-date="<%= package.modified.full %>">
         <%= package.modified.human %>
         <small><%= package.modified.ago %></small>
       </dd>
@@ -36,6 +38,39 @@
     <dl>
       <dt>keywords</dt>
       <dd><%= package.keywords.join(', ') %></dd>
+    </dl>
+    <% } %>
+
+    <% if (package.repository) { %>
+    <dl>
+      <dt>Repository</dt>
+      <dd>
+        <a href="<%= package.repository.url %>" rel="nofollow">
+          <%= package.repository.url %>
+        </a>
+      </dd>
+    </dl>
+    <% } %>
+    
+    <% if (package.bugs) { %>
+    <dl>
+      <dt>Issues</dt>
+      <dd>
+        <a href="<%= package.bugs.url %>" rel="nofollow">
+          <%= package.bugs.url %>
+        </a>
+      </dd>
+    </dl>
+    <% } %>
+
+    <% if (package.homepage) { %>
+    <dl>
+      <dt>homepage</dt>
+      <dd>
+        <a href="<%= package.homepage.url %>" rel="nofollow">
+          <%= package.homepage.url %>
+        </a>
+      </dd>
     </dl>
     <% } %>
 
@@ -76,7 +111,9 @@
       <tbody>
         <% shrinkwrap.forEach(function (dependency) { %>
         <tr>
-          <td class="name"><%= dependency.name %></td>
+          <td class="name">
+            <a href="/packages/<%= dependency.name %>"><%= dependency.name %></a>
+          </td>
           <td class="version"><%= dependency.version %></td>
           <td class="license">
             <% if (dependency.licenses) { %>
@@ -90,7 +127,9 @@
       <tfoot>
         <tr>
           <td colspan="3">
-            Show all <%= shrinkwrap.length %> dependencies
+            <a href="#/more" class="show-all">
+              Show all <%= shrinkwrap.length %> dependencies
+            </a>
           </td>
         </tr>
       </tfoot>
@@ -110,7 +149,7 @@
         <% package.releases.forEach(function (version) { %>
         <tr>
           <td class="version"><%= version %></td>
-          <td class="date">
+          <td class="date" data-date="<%= package.time[version].full %>">
             <%= package.time[version].human %>
             <small><%= package.time[version].ago %></small>
           </td>
@@ -121,7 +160,9 @@
       <tfoot>
         <tr>
           <td colspan="2">
-            Show all <%= package.releases.length %> releases
+            <a href="#/more" class="show-all">
+              Show all <%= package.releases.length %> releases
+            </a>
           </td>
         </tr>
       </tfoot>
