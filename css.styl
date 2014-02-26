@@ -9,16 +9,38 @@
   font-size: 15px
   line-height: 1.7
 
+  a
+    color: #4183C4
+    text-decoration: none
+
+    &:hover
+      text-decoration: underline
+
+  .maintainer
+  pre
+  table
+    margin: 15px 0
+
+  dl
+    margin: 0
+
   dt
     font-weight: bold
-    padding: 10px 0
+    padding: 5px 0
+    display: inline-block
+    min-width: 100px
 
   dd
-    padding: 10px 0
+    padding: 5px 0
+    display: inline-block
 
     a
       margin-right: 10px
       display: inline-block
+
+  .maintainer
+    overflow: hidden
+    margin: 15px 0
 
   .gravatar
     background-repeat: no-repeat
@@ -28,7 +50,7 @@
     font-weight: bold
     height: 50px
     line-height: @height
-    margin-right: 100px
+    margin-right: 25px
     text-indent: @height + 20
     width: @height
 
