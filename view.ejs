@@ -45,7 +45,7 @@
     </dl>
     <% } %>
 
-    <% if (package.keywords) { %>
+    <% if (package.keywords && package.keywords.length) { %>
     <dl>
       <dt>Keywords</dt>
       <dd><%= package.keywords.join(', ') %></dd>

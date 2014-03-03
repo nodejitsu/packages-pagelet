@@ -125,6 +125,21 @@ function reduce(data, fn) {
     return data.shrinkwrap[_id];
   });
 
+  //
+  // Remove empty objects from the package.
+  //
+  [
+    'repository',
+    'homepage',
+    'bugs'
+  ].forEach(function each(key) {
+    if (Array.isArray(data.package[key])) {
+      if (!data.package[key].length) delete data.package[key];
+    } else if ('object' === typeof data.package[key] && !Object.keys(data.package[key]).length) {
+      delete data.package[key];
+    }
+  });
+
   fn(undefined, data);
 }
 
