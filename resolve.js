@@ -1,8 +1,8 @@
 'use strict';
 
 var Shrinkwrap = require('shrinkwrap')
+  , Registry = require('npm-registry')
   , readme = require('renderme')
-  , Registry = require('npm.js')
   , moment = require('moment')
   , async = require('async');
 

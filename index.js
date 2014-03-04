@@ -1,6 +1,6 @@
 'use strict';
 
-var npm = require('npm.js')
+var Registry = require('npm-registry')
   , Pagelet = require('pagelet')
   , resolve = require('./resolve')
   , major = require('./package.json').version.slice(0, 1);
@@ -40,7 +40,7 @@ Pagelet.extend({
    * @type {String}
    * @api public
    */
-  registry: npm.mirrors.nodejitsu,
+  registry: Registry.mirrors.nodejitsu,
 
   /**
    * Return the cache key for a given module. By default we are prefixing the
