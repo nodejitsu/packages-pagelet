@@ -120,9 +120,50 @@ Packages.extend({
 });
 ```
 
+Please be aware that this cache is not automatically invalidated. So it might
+make sense to use either a [memcached] or [redis] cache with an expire value
+for this.
+
 ---
 
 ### githulk
+
+The `packages-pagelet` uses a lot of GitHub API end points to get the data
+retrieval as accurate and complete as possible and to render README's correctly.
+As the GitHub API is rate limited to 60 calls per hour for unauthorized and 5000
+calls for authorized connections it's really important to use an authorized
+`githulk` instance within your pagelet. The [GitHulk] module has 2 ways of
+creating an authorized connection, either by supplying it with an `token` option
+which is your OAuth token or by supplying the user name and password for your
+account so it can use basic auth. For small and private pages it might enough to
+have 5000 API calls per hour, but if you want to host the packages page in the
+public you would probably need as much as possible. That's why the `githulk`
+implements a request cache so it can do conditional requests to the GitHub API
+based on the returned `Etag` headers from the API.
+
+The caching is implemented in [mana] which is a framework for writing high
+available API clients. The cache API that it requires follows the same
+schematics as the cache that you can implement for this pagelet as it supports
+both an **sync** and **async** interface for retrieving and storing cache.
+
+You don't need to manually invalidate this cache as it's automatically overridden
+when the Etag is no longer accepted by the GitHub API.
+
+```js
+var GitHulk = require('githulk')
+
+var hulk = new GitHulk({
+  token: 'my secret oh.. auth token',
+  cache: {
+    get: function (key) {},
+    set: function (key, value) {}
+  }
+});
+```
+
+The `githulk` instance that you've created can also be passed in to your custom
+`npm-registry` client so it can also re-use the same instance and credentials
+for when it does a lookup.
 
 ---
 
@@ -188,3 +229,7 @@ The resolve method accepts 3 arguments:
 [Pagelet]: https://github.com/bigpipe/pagelet
 [registry]: #registry
 [githulk]: #githulk
+[GitHulk]: https://github.com/3rd-Eden/githulk
+[mana]: https://github.com/3rd-Eden/mana
+[memcached]: https://github.com/3rd-Eden/node-memcached
+[redis]: https://github.com/mranney/node_redis
