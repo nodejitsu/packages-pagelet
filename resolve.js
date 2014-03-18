@@ -32,10 +32,12 @@ function resolve(name, options, next) {
         registry: options.registry,
         githulk: options.githulk
       })
-    , npm = new Registry({
-        registry: options.registry,
-        githulk: options.githulk
-      });
+    , npm = 'string' === typeof options.registry
+      ? new Registry({
+          registry: options.registry,
+          githulk: options.githulk
+        })
+      : options.registry;
 
   npm.packages.details(name, function details(err, data) {
     if (err) return next(err);
