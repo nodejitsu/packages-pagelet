@@ -17,7 +17,7 @@
 
     <% if (package.maintainers.length) { %>
     <h2>Maintainers</h2>
-    <% package.maintainers.forEach(function (maintainer) { %> 
+    <% package.maintainers.forEach(function (maintainer) { %>
     <div class="maintainer">
       <% if (maintainer.gravatar) { %>
       <img src="<%= maintainer.gravatar %>?s=120" alt="<%= maintainer.name %>" class="gravatar">
@@ -123,7 +123,7 @@
         <% shrinkwrap.forEach(function (dependency, index) { %>
         <tr class="<%= index >= 5 ? 'row gone' : 'row' %>">
           <td class="name">
-            <a href="/packages/<%= dependency.name %>"><%= dependency.name %></a>
+            <a href="/package/<%= dependency.name %>"><%= dependency.name %></a>
           </td>
           <td class="version"><%= dependency.version %></td>
           <td class="license">
