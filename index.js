@@ -64,7 +64,7 @@ Pagelet.extend({
    * @param {Function} next Completion callback.
    * @api private
    */
-  render: function render(next) {
+  get: function get(next) {
     var name = this.params.name
       , key = this.key(name)
       , pagelet = this
