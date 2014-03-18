@@ -59,7 +59,7 @@ The `registry` property allows two different values, it can either be a string
 with a trailing slash which points to the location of The npm Registry you want
 to use (which is useful for a private registry) or it can be set to a
 pre-configured `npm-registry` instance which would be preferred. The reason for
-this is that the `npm-registry` client users the `githulk` module to make API
+this is that the `npm-registry` client uses the `githulk` module to make API
 requests to GitHub repositories to retrieve addition data about packages. As the
 API of GitHub is rate limited it's vital that you use authenticated API requests
 to GitHub where ever possible. See the [npm-registry] for more detailed
