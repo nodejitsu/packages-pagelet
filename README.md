@@ -167,6 +167,28 @@ for when it does a lookup.
 
 ---
 
+### key
+
+When we cache the data for the pagelet we automatically run the name of the
+module through the `key` method which prefixes the key so it can be used as
+cache key. We are currently prefixing the key with the **major** version of this
+module. So when we make a backwards incompatible change to the data structure
+your page wouldn't die because it had an incorrect data structure.
+
+But if you want absolute control over the process, you can just create your own
+key prefixer:
+
+
+```js
+Packages.extend({
+  key: function key(name) {
+    return 'foo-bar-prefixed-key:'+ name;
+  }
+});
+```
+
+---
+
 So a fully configured and customized `packages-pagelet` should look something
 like this:
 
