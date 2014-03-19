@@ -28,16 +28,20 @@ function resolve(name, options, next) {
   options.registry = options.registry || Registry.mirrors.nodejitsu;
   options.githulk = options.githulk || new GitHulk();
 
+  //
+  // Only create a new Registry instance if we've been supplied with a string.
+  //
+  var npm = 'string' !== typeof options.registry
+    ? options.registry
+    : new Registry({
+      registry: options.registry,
+      githulk: options.githulk
+  });
+
   var shrinkwrap = new Shrinkwrap({
-        registry: options.registry,
-        githulk: options.githulk
-      })
-    , npm = 'string' === typeof options.registry
-      ? new Registry({
-          registry: options.registry,
-          githulk: options.githulk
-        })
-      : options.registry;
+    githulk: options.githulk,
+    registry: npm
+  });
 
   npm.packages.details(name, function details(err, data) {
     if (err) return next(err);
