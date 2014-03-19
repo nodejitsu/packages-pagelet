@@ -178,11 +178,10 @@ your page wouldn't die because it had an incorrect data structure.
 But if you want absolute control over the process, you can just create your own
 key prefixer:
 
-
 ```js
 Packages.extend({
-  key: function key(name) {
-    return 'foo-bar-prefixed-key:'+ name;
+  key: function key(name, version) {
+    return 'foo-bar-prefixed-key:'+ name +':'+ version;
   }
 });
 ```
