@@ -88,11 +88,11 @@ function reduce(data, fn) {
   // Remove circular references as it would prevent us from caching in Redis or
   // what ever because there's a circular reference.
   //
-  if ('object' === typeof data.dependent) {
-    Object.keys(data.dependent).forEach(function each(id) {
-      delete data.dependent[id].dependencies;
-      delete data.dependent[id].dependent;
-      delete data.dependent[id].parent;
+  if ('object' === typeof data.shrinkwrap) {
+    Object.keys(data.shrinkwrap).forEach(function each(id) {
+      delete data.shrinkwrap[id].dependencies;
+      delete data.shrinkwrap[id].dependent;
+      delete data.shrinkwrap[id].parent;
     });
   }
 
