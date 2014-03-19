@@ -55,7 +55,7 @@ Pagelet.extend({
    * @api public
    */
   key: function key(name, version) {
-    return 'v'+ major +':'+ name;
+    return 'v'+ major +':'+ name +'@'+ version;
   },
 
   /**
@@ -66,7 +66,7 @@ Pagelet.extend({
    * @api private
    */
   latest: function latest(name, fn) {
-    var key = '.cache:latest:'+ name
+    var key = this.key(name, 'latest')
       , pagelet = this;
 
     this.fireforget('get', key, function cached(err, data) {
@@ -80,7 +80,7 @@ Pagelet.extend({
         if (err) return fn(err);
 
         if (Array.isArray(data)) data = data[0];
-        this.fireforget('get', key, data.version);
+        pagelet.fireforget('set', key, data.version);
 
         fn(undefined, data.version);
       });
