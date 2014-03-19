@@ -50,11 +50,93 @@ Pagelet.extend({
    * where people use __proto__ as package name.
    *
    * @param {String} name The name of the module.
+   * @param {String} version The version number of the module.
    * @returns {String} The cache key.
    * @api public
    */
-  key: function key(name) {
+  key: function key(name, version) {
     return 'v'+ major +':'+ name;
+  },
+
+  /**
+   * Get the latest version of a module.
+   *
+   * @param {String} name The name of the module.
+   * @param {Function} fn The callback.
+   * @api private
+   */
+  latest: function latest(name, fn) {
+    var key = '.cache:latest:'+ name
+      , pagelet = this;
+
+    this.fireforget('get', key, function cached(err, data) {
+      if (!err && data) return fn(err, data);
+
+      var registry = pagelet.registry instanceof Registry
+        ? pagelet.registry
+        : new Registry({ registry: pagelet.registry });
+
+      registry.packages.get(name +'/latest', function latest(err, data) {
+        if (err) return fn(err);
+
+        if (Array.isArray(data)) data = data[0];
+        this.fireforget('get', key, data.version);
+
+        fn(undefined, data.version);
+      });
+    });
+  },
+
+  /**
+   * Simple wrapper around a possible cache interface.
+   *
+   * @param {String} method The cache method we went to invoke.
+   * @param {String} key The key we want to retrieve.
+   * @param {Object} obj The data we want to store.
+   * @param {Function} fn An optional callback.
+   * @api private
+   */
+  fireforget: function (method, key, obj, fn) {
+    if ('function' === typeof obj) {
+      fn = obj;
+      obj = null;
+    }
+
+    fn = fn || function nope() {};
+
+    var pagelet = this;
+
+    //
+    // Force asynchronous execution of cache retrieval without starving I/O
+    //
+    (
+      global.setImmediate   // Only available since node 0.10
+      ? global.setImmediate
+      : global.setTimeout
+    )(function immediate() {
+      if (key && pagelet.cache) {
+        if ('get' === method) {
+          if (pagelet.cache.get.length === 1) {
+            return fn(undefined, pagelet.cache.get(key));
+          } else {
+            return pagelet.cache.get(key, fn);
+          }
+        } else if ('set' === method) {
+          if (pagelet.cache.set.length === 2) {
+            return fn(undefined, pagelet.cache.set(key, obj));
+          } else {
+            return pagelet.cache.set(key, obj, fn);
+          }
+        }
+      }
+
+      //
+      // Nothing, no cache or matching methods.
+      //
+      fn();
+    });
+
+    return this;
   },
 
   /**
@@ -66,53 +148,35 @@ Pagelet.extend({
    */
   get: function get(next) {
     var name = this.params.name
-      , key = this.key(name)
       , pagelet = this
-      , data;
+      , key;
 
-    if (this.cache) {
-      //
-      // Determine if we have a `sync` or `async` cache implementation. If it
-      // accepts 2 arguments it's async as it requires a `key` and `callback`
-      // argument.
-      //
-      if (this.cache.get.length === 1) {
-        data = this.cache.get(key);
+    this.latest(name, function latest(err, version) {
+      if (err) return next(err);
 
-        if (data) return next(undefined, data);
-      } else if (this.cache.get.length === 2) {
-        return this.cache.get(key, function cached(err, data) {
-          if (!err && data) return next(undefined, data);
+      key = pagelet.key(name, version);
 
+      pagelet.fireforget('get', key, function cached(err, data) {
+        if (!err && data) return next(err, data);
+
+        //
+        // No data or an error, resolve the data structure and attempt to
+        // store it again.
+        //
+        pagelet.resolve(name, {
+          registry: pagelet.registry,
+          githulk: pagelet.githulk
+        }, function resolved(err, data) {
           //
-          // No data or an error, resolve the data structure and attempt to
-          // store it again.
+          // Store and forget, we should delay the rendering procedure any
+          // longer as manually resolving took to damn much time.
           //
-          pagelet.resolve(name, {
-            registry: pagelet.registry,
-            githulk: pagelet.githulk
-          }, function resolved(err, data) {
-            //
-            // Store and forget, we should delay the rendering procedure any
-            // longer as manually resolving took to damn much time.
-            //
-            if ('function' === typeof pagelet.cache.set && !err) {
-              pagelet.cache.set(key, data, function nope() {});
-            }
+          if (!err) pagelet.fireforget('set', key, data);
 
-            next(err, data);
-          });
+          next(err, data);
         });
-      }
-    }
-
-    //
-    // No cache resolve it on the fly, which would be slow-ish.
-    //
-    this.resolve(name, {
-      registry: this.registry,
-      githulk: this.githulk
-    }, next);
+      });
+    });
   }
 }).on(module);
 
