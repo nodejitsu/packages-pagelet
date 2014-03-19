@@ -31,7 +31,10 @@ Filecache.prototype.get = function get(name, fn) {
     if (err) return fn(err);
 
     try { data = JSON.parse(data); }
-    catch (e) { return fn(e); }
+    catch (e) {
+      console.error('Failed to get data because of invalid data %s: %s', name, e.message);
+      return fn(e);
+    }
 
     fn(undefined, data);
   });
@@ -46,7 +49,10 @@ Filecache.prototype.get = function get(name, fn) {
  */
 Filecache.prototype.set = function set(name, data, fn) {
   try { data = JSON.stringify(data, null, 2); }
-  catch(e) { return fn(e); }
+  catch(e) {
+    console.error('Failed to store data because of circular data references in %s: %s', name, e.message);
+    return fn(e);
+  }
 
   fs.writeFile(path.join(this.directory, '/'+ name +'.json'), data, fn);
 };
