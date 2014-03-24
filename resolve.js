@@ -59,6 +59,12 @@ function resolve(name, options, next) {
       },
       readme: function render(next) {
         readme(data, { githulk: options.githulk }, next);
+      },
+      github: function render(next) {
+        var project = options.githulk.project(data);
+        if (!project.user || !project.repo) return next();
+
+        options.githulk.repository.get(project.user + '/' + project.repo, next);
       }
     }, function parallel(err, additional) {
       if (err) return next(err);
@@ -66,7 +72,8 @@ function resolve(name, options, next) {
       reduce({
         package: data,
         readme: additional.readme,
-        shrinkwrap: additional.shrinkwrap
+        shrinkwrap: additional.shrinkwrap,
+        github: additional.github
       }, next);
     });
   });
@@ -95,6 +102,12 @@ function reduce(data, fn) {
       delete data.shrinkwrap[id].parent;
     });
   }
+
+  //
+  // Extract github data from array.
+  // TODO might need more cleanup
+  //
+  data.github = data.github.pop();
 
   //
   // Make sure we default to something so we don't get template errors
