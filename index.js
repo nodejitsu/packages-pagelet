@@ -21,7 +21,7 @@ Pagelet.extend({
   //
   dependencies: [
     'http://code.jquery.com/jquery-2.1.0.min.js',
-    Contour.core('npm').styl
+    Contour.get('npm').styl
   ],
 
   /**

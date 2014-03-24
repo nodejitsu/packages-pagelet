@@ -1,19 +1,33 @@
 <article class="package row">
   <div class="details">
-    <h1>
-      <%= package.name %>
-      <% if (package.description) { %>
-      <small><%= package.description %></small>
-      <% } %>
-    </h1>
+    <header class="row">
+      <h1 class="sixcol">
+        <%= package.name %> / <%= package.version %>
+        <% if (package.modified) { %>
+        <small data-date="<%= package.modified.full %>">
+          last updated <%= package.modified.ago %>
+        </small>
+        <% } %>
+        <% if (package.created) { %>
+        <small data-date="<%= package.created.full %>">
+          created in <%= package.created.human %>
+        </small>
+        <% } %>
+      </h1>
 
-    <h3>Install this module by running</h3>
-    <pre>npm install --save <%= package.name %></pre>
-
-    <% if (package.github) { %>
-    <h3>Clone this module using</h3>
-    <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
-    <% } %>
+      <aside class="sixcol last">
+        <div class="right">
+          <s class="ss-icon ss-standard ss-star"></s>
+          <%= (package.starred || []).length %> |
+          <s class="ss-icon ss-social-circle ss-octocat"></s>
+          <%= package.github.stars || 0 %> |
+          <s class="ss-icon ss-standard ss-home"></s>
+          <s class="ss-icon ss-standard ss-alert"></s>
+          <s class="ss-icon ss-standard ss-fork"></s> |
+          <strong class="label label-info"><%= package.license %></strong>
+        </div>
+      </aside>
+    </header>
 
     <% if (package.maintainers.length) { %>
     <h2>Maintainers</h2>
@@ -25,25 +39,6 @@
       <strong class="name"><%= maintainer.name %></strong>
     </div>
     <% });} %>
-
-    <% if (package.created) { %>
-    <dl>
-      <dt>Created</dt>
-      <dd class="date" data-date="<%= package.created.full %>">
-        <%= package.created.human %>
-      </dd>
-    </dl>
-    <% } %>
-
-    <% if (package.modified) { %>
-    <dl>
-      <dt>Last modified</dt>
-      <dd class="date" data-date="<%= package.modified.full %>">
-        <%= package.modified.human %>
-        <small><%= package.modified.ago %></small>
-      </dd>
-    </dl>
-    <% } %>
 
     <% if (package.keywords && package.keywords.length) { %>
     <dl>

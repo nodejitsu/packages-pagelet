@@ -1,20 +1,38 @@
 @import syntax
 @import code
 
-*
-  box-sizing: border-box
-
 .details
-  font-family: "proxima-nova-1","proxima-nova-2", Helvetica, arial, freesans, clean, sans-serif
   font-size: 15px
-  line-height: 1.7
+  line-height: 1.7em
 
-  a
+  header
+    h1
+    aside
+      margin-top: 36px
+
+    h1
+      font-size: 36px
+
+    small
+      font-size: 14px
+      line-height: 1.25em
+      display: block
+      font-weight: normal
+      color: #A5A5A5
+
+      &:first-child
+        margin-top: 5px
+
+  aside
+    color: #999
+
+    s
+    strong
+      font-size: 22px
+
+  a:hover
     color: #4183C4
-    text-decoration: none
-
-    &:hover
-      text-decoration: underline
+    text-decoration: underline
 
   .maintainer
   pre
@@ -69,18 +87,6 @@
 
       &:nth-child(2n)
         background-color: #F8F8F8
-
-    .gone
-      display: none
-
-  h1
-    font-size: 36px
-
-    small
-      font-size: 16px
-      display: block
-      font-weight: normal
-      color: #A5A5A5
 
 //
 // Custom markdown code that shouldn't affect the rest of page.
