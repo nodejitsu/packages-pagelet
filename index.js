@@ -2,6 +2,7 @@
 
 var Registry = require('npm-registry')
   , Pagelet = require('pagelet')
+  , Contour = require('contour')
   , resolve = require('./resolve')
   , major = require('./package.json').version.slice(0, 1);
 
@@ -19,7 +20,8 @@ Pagelet.extend({
   // script tag. This dependency is needed forthe `package.js` client file.
   //
   dependencies: [
-    'http://code.jquery.com/jquery-2.1.0.min.js'
+    'http://code.jquery.com/jquery-2.1.0.min.js',
+    Contour.core('npm').styl
   ],
 
   /**
