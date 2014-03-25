@@ -64,10 +64,8 @@
         <table class="more">
           <tbody>
             <% shrinkwrap.forEach(function (dependency, index) { %>
-            <% if (index && p !== (c = dependency.main)) { %>
-            <tr class="sub first"><td>SUB</td><td colspan="3"></td></tr>
-            <% } %>
-            <tr class="<%= c ? 'main' : 'sub' %><%= index >= 5 ? ' gone' : '' %>">
+            <% var n = index && p !== (c = dependency.main) ? ' first' : '' %>
+            <tr class="<%= c ? 'main' : 'sub' + n %><%= index >= 5 ? ' gone' : '' %>">
               <td>
                 <s class="status<%= !(dependency.licenses || []).length ? ' missing' : '' %>">
                 </s>
