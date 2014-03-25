@@ -93,10 +93,13 @@ function reduce(data, fn) {
 
   //
   // Remove circular references as it would prevent us from caching in Redis or
-  // what ever because there's a circular reference.
+  // what ever because there's a circular reference. Keep track of what are main
+  // dependencies by providing them with a number, usefull for sorting later on.
   //
   if ('object' === typeof data.shrinkwrap) {
     Object.keys(data.shrinkwrap).forEach(function each(id) {
+      data.shrinkwrap[id].main = +(data.shrinkwrap[id].parent.name === data.package.name)
+
       delete data.shrinkwrap[id].dependencies;
       delete data.shrinkwrap[id].dependent;
       delete data.shrinkwrap[id].parent;
@@ -138,10 +141,12 @@ function reduce(data, fn) {
   });
 
   //
-  // Transform shrinkwrap to an array.
+  // Transform shrinkwrap to an array and prioritize main dependencies.
   //
   data.shrinkwrap = Object.keys(data.shrinkwrap || {}).map(function wrap(_id) {
     return data.shrinkwrap[_id];
+  }).sort(function sort(a, b) {
+    return b.main - a.main;
   });
 
   //

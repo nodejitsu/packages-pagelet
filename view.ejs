@@ -49,8 +49,45 @@
 
     <section class="properties row">
       <div class="fourcol dependencies">
-        <h2><s class="ss-icon ss-standard ss-grid"></s> dependencies</h2>
+        <h2>
+          <s class="ss-icon ss-standard ss-grid"></s>
+          dependencies
+          <% if (shrinkwrap.length > 5) { %>
+          <small class="right">
+            <a href="#/more-dependencies" class="show-all">
+              +<%= shrinkwrap.length - 5 %> more
+            </a>
+          </small>
+          <% } %>
+        </h2>
+        <% if (shrinkwrap.length) { var c = 1, p = 1 %>
+        <table class="more">
+          <tbody>
+            <% shrinkwrap.forEach(function (dependency, index) { %>
+            <% if (index && p !== (c = dependency.main)) { %>
+            <tr class="sub first"><td>SUB</td><td colspan="3"></td></tr>
+            <% } %>
+            <tr class="<%= c ? 'main' : 'sub' %><%= index >= 5 ? ' gone' : '' %>">
+              <td>
+                <s class="status<%= !(dependency.licenses || []).length ? ' missing' : '' %>">
+                </s>
+              </td>
+              <td class="name">
+                <a href="/package/<%= dependency.name %>"><%= dependency.name %></a>
+              </td>
+              <td class="version"><%= dependency.version %></td>
+              <td class="license right">
+                <% if (dependency.licenses) { %>
+                  <%= dependency.licenses.join(', ') %>
+                <% } %>
+              </td>
+            </tr>
+            <% p = c }) %>
+          </tbody>
+        </table>
+        <% } %>
       </div>
+
       <div class="fourcol maintainers">
         <% if (package.maintainers.length) { %>
         <h2>
@@ -73,6 +110,7 @@
         </div>
         <% });} %>
       </div>
+
       <div class="fourcol last versions">
         <h2>
           <s class="ss-icon ss-standard ss-layers"></s>
@@ -94,6 +132,7 @@
               <td class="date" data-date="<%= package.time[version].full %>">
                 <%= package.time[version].ago %>
               </td>
+              <td class="releaser right"></td>
             </tr>
             <% }); %>
           </tbody>
@@ -101,44 +140,6 @@
         <% } %>
       </div>
     </section>
-
-    <% if (shrinkwrap.length) { %>
-    <table class="more">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Version</th>
-          <th>License</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% shrinkwrap.forEach(function (dependency, index) { %>
-        <tr class="<%= index >= 5 ? 'row gone' : 'row' %>">
-          <td class="name">
-            <a href="/package/<%= dependency.name %>"><%= dependency.name %></a>
-          </td>
-          <td class="version"><%= dependency.version %></td>
-          <td class="license">
-            <% if (dependency.licenses) { %>
-              <%= dependency.licenses.join(', ') %>
-            <% } %>
-          </td>
-        </tr>
-        <% }); %>
-      </tbody>
-      <% if (shrinkwrap.length > 5) { %>
-      <tfoot>
-        <tr>
-          <td colspan="3">
-            <a href="#/more" class="show-all">
-              Show all <%= shrinkwrap.length %> dependencies
-            </a>
-          </td>
-        </tr>
-      </tfoot>
-      <% } %>
-    </table>
-    <% } %>
   </div>
 
   <% if ('readme' in locals) { %>
