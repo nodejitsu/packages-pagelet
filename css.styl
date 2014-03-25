@@ -46,7 +46,6 @@
   .properties
     padding-bottom: 2em
     min-height: 240px
-    overflow: inherit
 
     a
       color: #A5A5A5
@@ -66,25 +65,11 @@
       color: @color
       text-decoration: none
 
-  .sub.first
-    td:first-child
-      position: relative
-
-      &:before
-        absolute: top 1px left -25px
-        font-size: 11px
-        content: 'SUB'
-        display: block
-
-  .dependencies tr:first-child
-    td:first-child
-      position: relative
-
-      &:before
-        absolute: top 1px left -30px
-        font-size: 11px
-        content: 'MAIN'
-        display: block
+  td.type
+    font-size: 11px
+    text-transform: uppercase
+    padding: 1px 0
+    width: 32px
 
   s.status
     height: 12px
@@ -120,7 +105,7 @@
     text-indent: @height + 20
     width: @height
 
-  table.more
+  table
     border-collapse: collapse
     border-spacing: 0
     color: #999
