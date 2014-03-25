@@ -14,6 +14,7 @@ Pagelet.extend({
   css:  'css.styl',       // All CSS required to render this component.
   js:   'package.js',     // Progressive enhancements for the UI.
   resolve: resolve,       // Expose the resolver so it can be overridden.
+  remove: false,          // Do not remove to containing element.
 
   //
   // External dependencies that should be included on the page using a regular

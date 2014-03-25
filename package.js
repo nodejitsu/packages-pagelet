@@ -10,16 +10,16 @@ pipe.once('package::initialise', function (data, pagelet) {
   //
   // Show more rows when we click on the table footer.
   //
-  pagelet.on('click', '.details tfoot .show-all', function click(e) {
+  pagelet.on('click', '.details .show-all', function click(e) {
     e.preventDefault();
 
-    var table = $(this).parents('table');
+    var table = $(this).parents('.fourcol').find('table');
 
     //
     // Show the rows that were hidden and remove the table foot as we're already
     // showing all the fields now.
     //
     table.find('.gone').fadeIn();
-    table.find('tfoot').remove();
+    $(this).remove();
   });
 });
