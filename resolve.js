@@ -64,6 +64,7 @@ function resolve(name, options, next) {
         var project = options.githulk.project(data);
         if (!project.user || !project.repo) return next();
 
+console.log(options.githulk.repository)
         options.githulk.repository.get(project.user + '/' + project.repo, next);
       }
     }, function parallel(err, additional) {
