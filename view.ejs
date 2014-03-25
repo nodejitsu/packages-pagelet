@@ -1,4 +1,4 @@
-<article class="package row">
+<article class="package">
   <div class="details">
     <header class="row">
       <h1 class="sixcol">
@@ -21,89 +21,86 @@
           <%= (package.starred || []).length %> |
           <s class="ss-icon ss-social-circle ss-octocat"></s>
           <%= github.stargazers_count || 0 %> |
-          <s class="ss-icon ss-standard ss-home"></s>
-          <s class="ss-icon ss-standard ss-alert"></s>
-          <s class="ss-icon ss-standard ss-fork"></s> |
-          <strong class="label label-info"><%= package.license %></strong>
+
+          <% if (package.homepage) { %>
+          <a href="<%= package.homepage.url %>" rel="nofollow">
+            <s class="ss-icon ss-standard ss-home"></s>
+          </a>
+          <% } %>
+
+          <% if (package.bugs) { %>
+          <a href="<%= package.bugs.url %>" rel="nofollow">
+            <s class="ss-icon ss-standard ss-alert"></s>
+          </a>
+          <% } %>
+
+          <% if (package.repository) { %>
+          <a href="<%= package.repository.url %>" rel="nofollow">
+            <s class="ss-icon ss-standard ss-fork"></s> |
+          </a>
+          <% } %>
+
+          <% package.licenses.forEach(function (license) { %>
+          <strong class="label label-info"><%= license %></strong>
+          <% }) %>
         </div>
       </aside>
     </header>
 
-    <% if (package.maintainers.length) { %>
-    <h2>Maintainers</h2>
-    <% package.maintainers.forEach(function (maintainer) { %>
-    <div class="maintainer">
-      <% if (maintainer.gravatar) { %>
-      <img src="<%= maintainer.gravatar %>?s=120" alt="<%= maintainer.name %>" class="gravatar">
-      <% } %>
-      <strong class="name"><%= maintainer.name %></strong>
-    </div>
-    <% });} %>
-
-    <% if (package.keywords && package.keywords.length) { %>
-    <dl>
-      <dt>Keywords</dt>
-      <dd><%= package.keywords.join(', ') %></dd>
-    </dl>
-    <% } %>
-
-    <% if (package.repository) { %>
-    <dl>
-      <dt>Repository</dt>
-      <dd>
-        <a href="<%= package.repository.url %>" rel="nofollow">
-          <%= package.repository.url %>
-        </a>
-      </dd>
-    </dl>
-    <% } %>
-
-    <% if (package.bugs) { %>
-    <dl>
-      <dt>Issues</dt>
-      <dd>
-        <a href="<%= package.bugs.url %>" rel="nofollow">
-          <%= package.bugs.url %>
-        </a>
-      </dd>
-    </dl>
-    <% } %>
-
-    <% if (package.homepage) { %>
-    <dl>
-      <dt>Homepage</dt>
-      <dd>
-        <a href="<%= package.homepage.url %>" rel="nofollow">
-          <%= package.homepage.url %>
-        </a>
-      </dd>
-    </dl>
-    <% } %>
-
-    <% if (package.version) { %>
-    <dl>
-      <dt>Version</dt>
-      <dd><%= package.version %></dd>
-    </dl>
-    <% } %>
-
-    <% if (package.licenses) { %>
-    <dl>
-      <dt>Copyright</dt>
-      <dd><%= package.licenses.join(', ') %></dd>
-    </dl>
-    <% } %>
-
-    <% if (package.github) { %>
-    <dl>
-      <dt>Donate</dt>
-      <dd>
-        <a href="https://www.gittip.com/on/github/<%= package.github.user%>/">
-          @<%= package.github.user %> on gittip
-        </a>
-      </dd>
-    </dl>
-    <% } %>
+    <section class="properties row">
+      <div class="fourcol dependencies">
+        <h2><s class="ss-icon ss-standard ss-grid"></s> dependencies</h2>
+      </div>
+      <div class="fourcol maintainers">
+        <% if (package.maintainers.length) { %>
+        <h2>
+          <s class="ss-icon ss-standard ss-users"></s>
+          maintainers
+          <% if (package.maintainers.length > 4) { %>
+          <small class="right">
+            <a href="#/more-maintainers" class="show-all">
+              +<%= package.maintainers.length - 4 %> more
+            </a>
+          </small>
+          <% } %>
+        </h2>
+        <% package.maintainers.forEach(function (maintainer, index) { %>
+        <div class="maintainer sixcol<%= index >= 5 ? ' gone' : '' %><%= index % 2 ? ' last' : '' %>">
+          <% if (maintainer.gravatar) { %>
+          <img src="<%= maintainer.gravatar %>?s=120" alt="<%= maintainer.name %>" class="gravatar">
+          <% } %>
+          <strong class="name"><%= maintainer.name %></strong>
+        </div>
+        <% });} %>
+      </div>
+      <div class="fourcol last versions">
+        <h2>
+          <s class="ss-icon ss-standard ss-layers"></s>
+          versions
+          <% if (package.releases.length > 5) { %>
+          <small class="right">
+            <a href="#/more-releases" class="show-all">
+              <%= package.releases.length %> total
+            </a>
+          </small>
+          <% } %>
+        </h2>
+        <% if (package.time && package.releases.length) { %>
+        <table class="more">
+          <tbody>
+            <% package.releases.forEach(function (version, index) { %>
+            <tr class="<%= index >= 5 ? 'gone' : '' %>">
+              <td class="version"><%= version %></td>
+              <td class="date" data-date="<%= package.time[version].full %>">
+                <%= package.time[version].ago %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <% } %>
+      </div>
+    </section>
 
     <% if (shrinkwrap.length) { %>
     <table class="more">
@@ -142,43 +139,10 @@
       <% } %>
     </table>
     <% } %>
-
-    <% if (package.time && package.releases.length) { %>
-    <table class="more">
-      <thead>
-        <tr>
-          <th>Version</th>
-          <th>Release date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% package.releases.forEach(function (version, index) { %>
-        <tr class="<%= index >= 5 ? 'row gone' : 'row' %>">
-          <td class="version"><%= version %></td>
-          <td class="date" data-date="<%= package.time[version].full %>">
-            <%= package.time[version].human %>
-            <small><%= package.time[version].ago %></small>
-          </td>
-        </tr>
-        <% }); %>
-      </tbody>
-      <% if (package.releases.length > 5) { %>
-      <tfoot>
-        <tr>
-          <td colspan="2">
-            <a href="#/more" class="show-all">
-              Show all <%= package.releases.length %> releases
-            </a>
-          </td>
-        </tr>
-      </tfoot>
-      <% } %>
-    </table>
-    <% } %>
   </div>
 
   <% if ('readme' in locals) { %>
-  <article class="markdown">
+  <article class="row markdown">
     <%- readme %>
   </article>
   <% } %>

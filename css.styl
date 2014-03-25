@@ -2,13 +2,15 @@
 @import code
 
 .details
+  background-color: #fafdff
+  margin: 0 -20px
   font-size: 15px
   line-height: 1.7em
 
   header
     h1
     aside
-      margin-top: 36px
+      margin: 36px 0 18px
 
     h1
       font-size: 36px
@@ -26,6 +28,13 @@
   aside
     color: #999
 
+    a
+      color: @color
+
+      &:hover
+        color: @color
+        text-decoration: none
+
     s
     strong
       font-size: 22px
@@ -33,6 +42,13 @@
   a:hover
     color: #4183C4
     text-decoration: underline
+
+  h2
+    color: #999
+
+    s
+      float: left
+      margin: 3px 10px 0 0
 
   .maintainer
   pre
@@ -60,6 +76,10 @@
     overflow: hidden
     margin: 15px 0
 
+    strong
+      display: inline-block
+      margin-top: 10px
+
   .gravatar
     background-repeat: no-repeat
     background-size: cover
@@ -80,13 +100,11 @@
   table.more
     border-collapse: collapse
     border-spacing: 0
+    color: #999
 
-    tr
-      background-color: #FFF
-      border-top: 1px solid #CCC
-
-      &:nth-child(2n)
-        background-color: #F8F8F8
+    td
+      padding: 2px
+      border: none
 
 //
 // Custom markdown code that shouldn't affect the rest of page.
