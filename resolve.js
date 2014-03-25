@@ -110,7 +110,7 @@ function reduce(data, fn) {
   // Extract github data from array.
   // TODO might need more cleanup
   //
-  data.github = data.github.pop();
+  data.github = (data.github || []).pop() || {};
 
   //
   // Make sure we default to something so we don't get template errors
