@@ -103,7 +103,7 @@
           <% } %>
         </h2>
         <% package.maintainers.forEach(function (maintainer, index) { %>
-        <div class="maintainer sixcol<%= index >= 5 ? ' gone' : '' %><%= index % 2 ? ' last' : '' %>">
+        <div class="maintainer sixcol<%= index >= 4 ? ' gone' : '' %><%= index % 2 ? ' last' : '' %>">
           <% if (maintainer.gravatar) { %>
           <img src="<%= maintainer.gravatar %>?s=120" alt="<%= maintainer.name %>" class="gravatar">
           <% } %>

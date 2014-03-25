@@ -13,13 +13,13 @@ pipe.once('package::initialise', function (data, pagelet) {
   pagelet.on('click', '.details .show-all', function click(e) {
     e.preventDefault();
 
-    var table = $(this).parents('.fourcol').find('table');
+    var parent = $(this).parents('.fourcol');
 
     //
     // Show the rows that were hidden and remove the table foot as we're already
     // showing all the fields now.
     //
-    table.find('.gone').fadeIn();
+    parent.find('.gone').fadeIn();
     $(this).remove();
   });
 });

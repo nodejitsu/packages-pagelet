@@ -98,7 +98,7 @@ function reduce(data, fn) {
   //
   if ('object' === typeof data.shrinkwrap) {
     Object.keys(data.shrinkwrap).forEach(function each(id) {
-      data.shrinkwrap[id].main = +(data.shrinkwrap[id].parent.name === data.package.name)
+      data.shrinkwrap[id].main = +(data.shrinkwrap[id].parent.name === data.package.name);
 
       delete data.shrinkwrap[id].dependencies;
       delete data.shrinkwrap[id].dependent;
