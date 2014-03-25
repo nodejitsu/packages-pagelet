@@ -116,24 +116,26 @@
         <h2>
           <s class="ss-icon ss-standard ss-layers"></s>
           versions
-          <% if (package.releases.length > 5) { %>
+          <% var n = Object.keys(package.releases).length; if (n > 5) { %>
           <small class="right">
             <a href="#/more-releases" class="show-all">
-              <%= package.releases.length %> total
+              <%= n %> total
             </a>
           </small>
           <% } %>
         </h2>
-        <% if (package.time && package.releases.length) { %>
+        <% if (package.time && n) { %>
         <table class="more">
           <tbody>
-            <% package.releases.forEach(function (version, index) { %>
+            <% Object.keys(package.releases).forEach(function (version, index) { %>
             <tr class="<%= index >= 5 ? 'gone' : '' %>">
               <td class="version"><%= version %></td>
               <td class="date" data-date="<%= package.time[version].full %>">
                 <%= package.time[version].ago %>
               </td>
-              <td class="releaser right"></td>
+              <td class="releaser right">
+                <%= package.releases[version].name || 'anonymous' %>
+              </td>
             </tr>
             <% }); %>
           </tbody>
