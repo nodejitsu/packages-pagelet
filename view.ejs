@@ -22,7 +22,7 @@
             <%= (package.starred || []).length %>
           </div>
 
-          <% if (github) { %>
+          <% if ('github' in locals) { %>
           <div class="part">
             <s class="shift ss-icon ss-social-circle ss-octocat"></s>
             <%= github.stargazers_count || 0 %>
@@ -169,6 +169,6 @@
 
 <!--
 @TODO table of contents generation?
-@TODO github, twitter and other profile information
+@TODO twitter and other profile information
 @TODO description, current version, gravatar, release date.
 -->
