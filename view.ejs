@@ -93,11 +93,12 @@
             <% p = dependency.main }) %>
           </tbody>
         </table>
+        <% } else { %>
+        <p class="row">No dependencies listed.</p>
         <% } %>
       </div>
 
       <div class="fourcol maintainers">
-        <% if (package.maintainers.length) { %>
         <h2>
           <s class="ss-icon ss-standard ss-users"></s>
           maintainers
@@ -109,6 +110,7 @@
           </small>
           <% } %>
         </h2>
+        <% if (package.maintainers.length) { %>
         <% package.maintainers.forEach(function (maintainer, index) { %>
         <div class="maintainer sixcol<%= index >= 4 ? ' gone' : '' %><%= index % 2 ? ' last' : '' %>">
           <% if (maintainer.gravatar) { %>
@@ -116,7 +118,9 @@
           <% } %>
           <strong class="name"><%= maintainer.name %></strong>
         </div>
-        <% });} %>
+        <% });} else { %>
+        <p class="row">No maintainers listed.</p>
+        <% } %>
       </div>
 
       <div class="fourcol last versions">
