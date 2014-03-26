@@ -4,7 +4,7 @@
   "description": "Example application for using the packages-pagelet to render an npm package page.",
   "main": "index.js",
   "dependencies": {
-    "bigpipe": "0.1.x",
+    "bigpipe": "0.2.x",
     "ejs": "0.8.x",
     "githulk": "0.0.x"
   }

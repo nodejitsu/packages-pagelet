@@ -29,7 +29,7 @@
     "ejs": "0.8.x",
     "moment": "2.5.x",
     "npm-registry": "0.1.x",
-    "pagelet": "0.1.x",
+    "pagelet": "0.2.x",
     "renderme": "0.0.x",
     "shrinkwrap": "0.2.x"
   },
