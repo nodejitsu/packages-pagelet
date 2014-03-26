@@ -25,7 +25,7 @@
   "homepage": "https://github.com/nodejitsu/packages-pagelet",
   "dependencies": {
     "async": "0.2.x",
-    "contour": "~0.1.1",
+    "contour": "~0.2.0",
     "ejs": "0.8.x",
     "moment": "2.5.x",
     "npm-registry": "0.1.x",
