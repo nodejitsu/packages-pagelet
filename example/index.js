@@ -15,3 +15,9 @@ bigpipe.once('listening', function listening() {
   console.log('The example is now listening on http://localhost:8080');
   console.log('');
 });
+
+bigpipe.once('error', function error(err) {
+  console.log('');
+  console.log('The example server failed to start because of an error:', err);
+  console.log('');
+});
