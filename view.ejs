@@ -17,31 +17,37 @@
 
       <aside class="sixcol last">
         <div class="right">
-          <s class="ss-icon ss-standard ss-star"></s>
-          <%= (package.starred || []).length %> |
-          <s class="ss-icon ss-social-circle ss-octocat"></s>
-          <%= github.stargazers_count || 0 %> |
+          <div class="part">
+            <s class="shift ss-icon ss-standard ss-star"></s>
+            <%= (package.starred || []).length %>
+          </div>
+          <div class="part">
+            <s class="shift ss-icon ss-social-circle ss-octocat"></s>
+            <%= github.stargazers_count || 0 %>
+          </div>
 
-          <% if (package.homepage) { %>
-          <a href="<%= package.homepage.url %>" rel="nofollow">
-            <s class="ss-icon ss-standard ss-home"></s>
-          </a>
-          <% } %>
+          <div class="part">
+            <% if (package.homepage) { %>
+            <a class="shift" href="<%= package.homepage.url %>" rel="nofollow" target="_blank">
+              <s class="ss-icon ss-standard ss-home"></s>
+            </a>
+            <% } %>
 
-          <% if (package.bugs) { %>
-          <a href="<%= package.bugs.url %>" rel="nofollow">
-            <s class="ss-icon ss-standard ss-alert"></s>
-          </a>
-          <% } %>
+            <% if (package.bugs) { %>
+            <a class="shift" href="<%= package.bugs.url %>" rel="nofollow" target="_blank">
+              <s class="ss-icon ss-standard ss-alert"></s>
+            </a>
+            <% } %>
 
-          <% if (package.repository) { %>
-          <a href="<%= package.repository.url %>" rel="nofollow">
-            <s class="ss-icon ss-standard ss-fork"></s> |
-          </a>
-          <% } %>
+            <% if (package.repository) { %>
+            <a class="shift" href="<%= package.repository.url %>" rel="nofollow" target="_blank">
+              <s class="ss-icon ss-standard ss-fork"></s>
+            </a>
+            <% } %>
+          </div>
 
           <% package.licenses.forEach(function (license) { %>
-          <strong class="label label-info"><%= license %></strong>
+          <strong><%= license %></strong>
           <% }) %>
         </div>
       </aside>
