@@ -21,10 +21,13 @@
             <s class="shift ss-icon ss-standard ss-star"></s>
             <%= (package.starred || []).length %>
           </div>
+
+          <% if (github) { %>
           <div class="part">
             <s class="shift ss-icon ss-social-circle ss-octocat"></s>
             <%= github.stargazers_count || 0 %>
           </div>
+          <% } %>
 
           <div class="part">
             <% if (package.homepage) { %>
@@ -40,9 +43,13 @@
             <% } %>
           </div>
 
+          <% if (package.licenses) { %>
           <% package.licenses.forEach(function (license) { %>
           <strong><%= license %></strong>
           <% }) %>
+          <% } else { %>
+          <strong>MISSING</strong>
+          <% } %>
         </div>
       </aside>
     </header>
@@ -134,7 +141,7 @@
                 <%= package.time[version].ago %>
               </td>
               <td class="releaser right">
-                <%= package.releases[version].name || 'anonymous' %>
+                <%= (package.releases[version] || {}).name || 'anonymous' %>
               </td>
             </tr>
             <% }); %>

@@ -62,7 +62,7 @@ function resolve(name, options, next) {
       },
       github: function render(next) {
         var project = options.githulk.project(data);
-        if (!project.user || !project.repo) return next();
+        if (!project || !project.user || !project.repo) return next();
 
         options.githulk.repository.get(project.user + '/' + project.repo, next);
       }
@@ -108,9 +108,8 @@ function reduce(data, fn) {
 
   //
   // Extract github data from array.
-  // TODO might need more cleanup
   //
-  data.github = (data.github || []).pop() || {};
+  if (data.github && data.github.length) data.github = data.github.pop();
 
   //
   // Make sure we default to something so we don't get template errors
