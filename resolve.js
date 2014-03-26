@@ -64,7 +64,16 @@ function resolve(name, options, next) {
         var project = options.githulk.project(data);
         if (!project || !project.user || !project.repo) return next();
 
-        options.githulk.repository.get(project.user + '/' + project.repo, next);
+        //
+        // Get repository details but ignore any returned error by githulk.
+        // This data is considered highly optional and should not stop processing.
+        //
+        options.githulk.repository.get(
+          project.user + '/' + project.repo,
+          function done(err, data) {
+            next(null, data);
+          }
+        );
       }
     }, function parallel(err, additional) {
       if (err) return next(err);
