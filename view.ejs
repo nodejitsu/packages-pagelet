@@ -28,21 +28,15 @@
 
           <div class="part">
             <% if (package.homepage) { %>
-            <a class="shift" href="<%= package.homepage.url %>" rel="nofollow" target="_blank">
-              <s class="ss-icon ss-standard ss-home"></s>
-            </a>
+            <a class="shift ss-icon ss-standard ss-home" href="<%= package.homepage.url %>" rel="nofollow" target="_blank"></a>
             <% } %>
 
             <% if (package.bugs) { %>
-            <a class="shift" href="<%= package.bugs.url %>" rel="nofollow" target="_blank">
-              <s class="ss-icon ss-standard ss-alert"></s>
-            </a>
+            <a class="shift ss-icon ss-standard ss-alert" href="<%= package.bugs.url %>" rel="nofollow" target="_blank"></a>
             <% } %>
 
             <% if (package.repository) { %>
-            <a class="shift" href="<%= package.repository.url %>" rel="nofollow" target="_blank">
-              <s class="ss-icon ss-standard ss-fork"></s>
-            </a>
+            <a class="shift ss-icon ss-standard ss-fork" href="<%= package.repository.url %>" rel="nofollow" target="_blank"></a>
             <% } %>
           </div>
 
