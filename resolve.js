@@ -68,10 +68,18 @@ function resolve(name, options, next) {
         // Get repository details but ignore any returned error by githulk.
         // This data is considered highly optional and should not stop processing.
         //
-        options.githulk.repository.get(
+        options.githulk.repository.moved(
           project.user + '/' + project.repo,
-          function done(err, data) {
-            next(null, data);
+          function moved(err, parsed, changed) {
+            if (err) return next(null);
+            if (changed) project = parsed;
+
+            options.githulk.repository.get(
+              project.user + '/' + project.repo,
+              function get(err, data) {
+                next(null, data);
+              }
+            );
           }
         );
       }
