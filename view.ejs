@@ -57,7 +57,7 @@
           dependencies
           <% if (shrinkwrap.length > 5) { %>
           <small class="right">
-            <a href="#/more-dependencies" class="show-all">
+            <a href="#/more-dependencies" class="show-all" data-text="show less">
               +<%= shrinkwrap.length - 5 %> more
             </a>
           </small>
@@ -102,7 +102,7 @@
           maintainers
           <% if (package.maintainers.length > 4) { %>
           <small class="right">
-            <a href="#/more-maintainers" class="show-all">
+            <a href="#/more-maintainers" class="show-all" data-text="show less">
               +<%= package.maintainers.length - 4 %> more
             </a>
           </small>
@@ -127,7 +127,7 @@
           versions
           <% var n = Object.keys(package.releases).length; if (n > 5) { %>
           <small class="right">
-            <a href="#/more-releases" class="show-all">
+            <a href="#/more-releases" class="show-all" data-text="show less">
               <%= n %> total
             </a>
           </small>
