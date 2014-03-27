@@ -1,19 +1,27 @@
 @import syntax
 @import code
 
+$xlight-blue = #74bfe8
+$light-blue = #f4fbfe
+$med-blue = #0a90d7
+$dark-blue = #147bb3
+
 .details
-  background-color: #fafdff
+  background-color: #fff
   margin: 0 -20px
   font-size: 15px
   line-height: 1.7em
 
   header
-    h1
-    aside
-      margin-top: 36px
-      margin-bottom: 18px
+    background-color: $light-blue
 
     h1
+    aside
+      margin-top: 40px
+      margin-bottom: 10px
+
+    h1
+      color: $med-blue
       font-size: 36px
 
     small
@@ -21,7 +29,7 @@
       line-height: 1.25em
       display: block
       font-weight: normal
-      color: #A5A5A5
+      color: $dark-blue
 
       &:first-child
         margin-top: 8px
@@ -31,21 +39,21 @@
       margin: 3px 5px 0 0
 
     .part
-      border-right: 1px solid #DDD
+      border-right: 1px solid $med-blue
       margin-left: 8px
       padding-right: @margin-left
       float: left
 
     strong
       color: white
-      background-color: #A5A5A5
+      background-color: $med-blue
       border-radius: 2px
       padding: 0 5px
       margin-left: 8px
       float: left
 
   aside
-    color: #A5A5A5
+    color: $med-blue
 
     a
       color: @color
@@ -66,10 +74,12 @@
     min-height: 240px
 
     a
-      color: #A5A5A5
+      color: #333
 
   h2
-    color: #A5A5A5
+    background-color: $light-blue
+    color: $med-blue
+    padding: 15px
 
     s
       float: left
@@ -105,6 +115,25 @@
 
   .dependencies
   .maintainers
+  .versions
+    border-bottom: 1px solid #EEE
+
+    small
+      a
+        color: $xlight-blue
+
+        &:hover
+          color: $med-blue
+
+  .dependencies
+  .versions
+    padding-bottom: 35px
+
+  .maintainers
+    padding-bottom: 20px
+
+  .dependencies
+  .maintainers
     p
       color: #999
 
@@ -135,6 +164,7 @@
     color: #999
 
     td
+      color: #333
       padding: 2px
       border: none
 

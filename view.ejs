@@ -37,10 +37,6 @@
             <% if (package.bugs) { %>
             <a class="shift ss-icon ss-standard ss-alert" href="<%= package.bugs.url %>" rel="nofollow" target="_blank"></a>
             <% } %>
-
-            <% if (package.repository) { %>
-            <a class="shift ss-icon ss-standard ss-fork" href="<%= package.repository.url %>" rel="nofollow" target="_blank"></a>
-            <% } %>
           </div>
 
           <% if (package.licenses) { %>
@@ -86,7 +82,9 @@
               <td class="version"><%= dependency.version %></td>
               <td class="license right">
                 <% if (dependency.licenses) { %>
-                  <%= dependency.licenses.join(', ') %>
+                  <%= !(dependency.licenses || []).length ? 'MISSING' : dependency.licenses.join(', ') %>
+                <% } else { %>
+                  <%= 'MISSING' %>
                 <% } %>
               </td>
             </tr>
