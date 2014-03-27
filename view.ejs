@@ -71,8 +71,11 @@
             <% shrinkwrap.forEach(function (dependency, index) { %>
             <tr class="<%= index >= 5 ? ' gone' : '' %>">
               <td class="type">
-                <% if (!index) { %>main<% } %>
-                <% if (index &&  p !== dependency.main) { %>sub<% } %>
+                <% if (!index) { %>
+                <abbr title="The module's main dependencies">main</abbr>
+                <% } else if (p !== dependency.main) { %>
+                <abbr title="Dependencies of dependencies">sub</abbr>
+                <% } %>
               </td>
               <td>
                 <s class="status<%= !(dependency.licenses || []).length ? ' missing' : '' %>">
