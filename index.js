@@ -74,7 +74,7 @@ Pagelet.extend({
     this.fireforget('get', key, function cached(err, data) {
       if (!err && data) return fn(err, data);
 
-      var registry = pagelet.registry instanceof Registry
+      var registry = 'string' !== typeof pagelet.registry
         ? pagelet.registry
         : new Registry({ registry: pagelet.registry });
 
