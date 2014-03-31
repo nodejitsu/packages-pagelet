@@ -1,10 +1,8 @@
 @import syntax
 @import code
 
-$xlight-blue = #74bfe8
 $light-blue = #f4fbfe
 $med-blue = #0a90d7
-$dark-blue = #147bb3
 
 .details
   background-color: #fff
@@ -32,7 +30,7 @@ $dark-blue = #147bb3
       line-height: 1.25em
       display: block
       font-weight: normal
-      color: $dark-blue
+      color: $med-blue
 
       &:first-child
         margin-top: 8px
@@ -126,10 +124,11 @@ $dark-blue = #147bb3
 
     small
       a
-        color: $xlight-blue
+        color: $med-blue
 
         &:hover
           color: $med-blue
+          text-decoration: underline
 
   .dependencies
   .versions
