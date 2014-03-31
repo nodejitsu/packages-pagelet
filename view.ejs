@@ -9,9 +9,10 @@
             last updated <%= package.modified.ago %>
           </small>
           <% } %>
+
           <% if (package.created) { %>
           <small data-date="<%= package.created.full %>">
-            created in <%= package.created.human %>
+            created on <%= package.created.human %>
           </small>
           <% } %>
         </h1>
