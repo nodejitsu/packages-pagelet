@@ -89,6 +89,14 @@ $dark-highlight = #c0392b
     padding-bottom: 2em
     min-height: 240px
 
+    small
+      a
+        color: $med-highlight
+
+        &:hover
+          color: $med-highlight
+          text-decoration: underline
+
     a
       color: #333
 
@@ -132,26 +140,6 @@ $dark-highlight = #c0392b
 
   .dependencies
   .maintainers
-  .versions
-    border-bottom: 1px solid #EEE
-
-    small
-      a
-        color: $med-highlight
-
-        &:hover
-          color: $med-highlight
-          text-decoration: underline
-
-  .dependencies
-  .versions
-    padding-bottom: 35px
-
-  .maintainers
-    padding-bottom: 20px
-
-  .dependencies
-  .maintainers
     p
       color: #999
 
@@ -175,7 +163,6 @@ $dark-highlight = #c0392b
     text-indent: @height + 20
     width: @height
 
-
   table
     border-collapse: collapse
     border-spacing: 0
@@ -186,6 +173,12 @@ $dark-highlight = #c0392b
       padding: 2px
       border: none
 
+.utility
+  pre
+    background-color: $light-highlight
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+    padding: 1em
+
 //
 // Custom markdown code that shouldn't affect the rest of page.
 //
@@ -195,7 +188,7 @@ $dark-highlight = #c0392b
   position: relative
 
   .icon
-    color: #eaeaea
+    color: $light-highlight
     display: block
     margin-top: 24px
 

@@ -161,6 +161,16 @@
     </section>
   </div>
 
+  <section class="row utility">
+    <h3>Install this module by running</h3>
+    <pre>npm install --save <%= package.name %></pre>
+
+    <% if (package.github) { %>
+    <h3>Clone this module using</h3>
+    <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
+    <% } %>
+  </section>
+
   <% if ('readme' in locals) { %>
   <article class="row markdown">
     <div class="right icon">
