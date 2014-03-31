@@ -39,8 +39,9 @@ function resolve(name, options, next) {
   });
 
   var shrinkwrap = new Shrinkwrap({
-    githulk: options.githulk,
-    registry: npm
+    githulk: options.githulk,       // Custom GitHulk instance so it can be re-used.
+    production: true,               // Don't include devDependencies.
+    registry: npm                   // Do use a custom Registry instance.
   });
 
   npm.packages.details(name, function details(err, data) {
