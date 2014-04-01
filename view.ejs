@@ -24,7 +24,7 @@
               <%= (package.starred || []).length %>
             </div>
 
-            <% if ('github' in locals) { %>
+            <% if ('github' in locals && github) { %>
             <div class="part">
               <a class="stargazers" href="<%= package.homepage.url %>/stargazers" target="_blank">
                 <s class="shift ss-icon ss-social-circle ss-octocat"></s>
