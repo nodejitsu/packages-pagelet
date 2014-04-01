@@ -95,7 +95,7 @@
                 <% } %>
               </td>
               <td>
-                <s class="status<%= !(dependency.licenses || []).length ? ' missing' : '' %>">
+                <s class="status<%= !(dependency.licenses || []).length ? ' unknown' : '' %>">
                 </s>
               </td>
               <td class="name">
@@ -104,9 +104,9 @@
               <td class="version"><%= dependency.version %></td>
               <td class="license right">
                 <% if (dependency.licenses) { %>
-                  <%= !(dependency.licenses || []).length ? 'MISSING' : dependency.licenses.join(', ') %>
+                  <%= !(dependency.licenses || []).length ? 'Unknown' : dependency.licenses.join(', ') %>
                 <% } else { %>
-                  <%= 'MISSING' %>
+                  Unknown
                 <% } %>
               </td>
             </tr>
