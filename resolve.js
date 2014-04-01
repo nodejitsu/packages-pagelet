@@ -130,6 +130,11 @@ function reduce(data, fn) {
   if (data.github && data.github.length) data.github = data.github.pop();
 
   //
+  // Default to an empty object just in case so we dont check a bad reference
+  // in the view
+  //
+  data.github = data.github || {};
+  //
   // Make sure we default to something so we don't get template errors
   //
   data.readme = data.readme || data.package.description || '';
