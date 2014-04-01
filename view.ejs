@@ -1,57 +1,58 @@
 <article class="package">
   <div class="details">
-    <header class="row">
-      <h1 class="sixcol">
-        <%= package.name %> / <%= package.version %>
-        <% if (package.modified) { %>
-        <small data-date="<%= package.modified.full %>">
-          last updated <%= package.modified.ago %>
-        </small>
-        <% } %>
-        <% if (package.created) { %>
-        <small data-date="<%= package.created.full %>">
-          created in <%= package.created.human %>
-        </small>
-        <% } %>
-      </h1>
-
-      <aside class="sixcol last">
-        <div class="right">
-          <div class="part">
-            <s class="shift ss-icon ss-standard ss-star"></s>
-            <%= (package.starred || []).length %>
-          </div>
-
-          <% if ('github' in locals) { %>
-          <div class="part">
-            <s class="shift ss-icon ss-social-circle ss-octocat"></s>
-            <%= github.stargazers_count || 0 %>
-          </div>
+    <header>
+      <section class="row">
+        <h1 class="sixcol">
+          <%= package.name %> / <%= package.version %>
+          <% if (package.modified) { %>
+          <small data-date="<%= package.modified.full %>">
+            last updated <%= package.modified.ago %>
+          </small>
           <% } %>
 
-          <div class="part">
-            <% if (package.homepage) { %>
-            <a class="shift ss-icon ss-standard ss-home" href="<%= package.homepage.url %>" rel="nofollow" target="_blank"></a>
+          <% if (package.created) { %>
+          <small data-date="<%= package.created.full %>">
+            created on <%= package.created.human %>
+          </small>
+          <% } %>
+        </h1>
+
+        <aside class="sixcol last">
+          <div class="right">
+            <div class="part">
+              <s class="shift ss-icon ss-standard ss-star"></s>
+              <%= (package.starred || []).length %>
+            </div>
+
+            <% if ('github' in locals) { %>
+            <div class="part">
+              <a class="stargazers" href="<%= package.homepage.url %>/stargazers" target="_blank">
+                <s class="shift ss-icon ss-social-circle ss-octocat"></s>
+                <%= github.stargazers_count || 0 %>
+              </a>
+            </div>
             <% } %>
 
-            <% if (package.bugs) { %>
-            <a class="shift ss-icon ss-standard ss-alert" href="<%= package.bugs.url %>" rel="nofollow" target="_blank"></a>
-            <% } %>
+            <div class="part">
+              <% if (package.homepage) { %>
+              <a class="shift ss-icon ss-standard ss-home" href="<%= package.homepage.url %>" rel="nofollow" target="_blank"></a>
+              <% } %>
 
-            <% if (package.repository) { %>
-            <a class="shift ss-icon ss-standard ss-fork" href="<%= package.repository.url %>" rel="nofollow" target="_blank"></a>
+              <% if (package.bugs) { %>
+              <a class="shift ss-icon ss-standard ss-alert" href="<%= package.bugs.url %>" rel="nofollow" target="_blank"></a>
+              <% } %>
+            </div>
+
+            <% if (package.licenses) { %>
+            <% package.licenses.forEach(function (license) { %>
+            <strong><%= license %></strong>
+            <% }) %>
+            <% } else { %>
+            <strong>MISSING</strong>
             <% } %>
           </div>
-
-          <% if (package.licenses) { %>
-          <% package.licenses.forEach(function (license) { %>
-          <strong><%= license %></strong>
-          <% }) %>
-          <% } else { %>
-          <strong>MISSING</strong>
-          <% } %>
-        </div>
-      </aside>
+        </aside>
+      </section>
     </header>
 
     <section class="properties row">
@@ -61,7 +62,7 @@
           dependencies
           <% if (shrinkwrap.length > 5) { %>
           <small class="right">
-            <a href="#/more-dependencies" class="show-all">
+            <a href="#/more-dependencies" class="show-all" data-text="show less">
               +<%= shrinkwrap.length - 5 %> more
             </a>
           </small>
@@ -73,8 +74,11 @@
             <% shrinkwrap.forEach(function (dependency, index) { %>
             <tr class="<%= index >= 5 ? ' gone' : '' %>">
               <td class="type">
-                <% if (!index) { %>main<% } %>
-                <% if (index &&  p !== dependency.main) { %>sub<% } %>
+                <% if (!index) { %>
+                <abbr title="The module's main dependencies">main</abbr>
+                <% } else if (p !== dependency.main) { %>
+                <abbr title="Dependencies of dependencies">sub</abbr>
+                <% } %>
               </td>
               <td>
                 <s class="status<%= !(dependency.licenses || []).length ? ' missing' : '' %>">
@@ -86,7 +90,9 @@
               <td class="version"><%= dependency.version %></td>
               <td class="license right">
                 <% if (dependency.licenses) { %>
-                  <%= dependency.licenses.join(', ') %>
+                  <%= !(dependency.licenses || []).length ? 'MISSING' : dependency.licenses.join(', ') %>
+                <% } else { %>
+                  <%= 'MISSING' %>
                 <% } %>
               </td>
             </tr>
@@ -104,7 +110,7 @@
           maintainers
           <% if (package.maintainers.length > 4) { %>
           <small class="right">
-            <a href="#/more-maintainers" class="show-all">
+            <a href="#/more-maintainers" class="show-all" data-text="show less">
               +<%= package.maintainers.length - 4 %> more
             </a>
           </small>
@@ -129,7 +135,7 @@
           versions
           <% var n = Object.keys(package.releases).length; if (n > 5) { %>
           <small class="right">
-            <a href="#/more-releases" class="show-all">
+            <a href="#/more-releases" class="show-all" data-text="show less">
               <%= n %> total
             </a>
           </small>
@@ -155,6 +161,16 @@
       </div>
     </section>
   </div>
+
+  <section class="row utility">
+    <h3>Install this module by running</h3>
+    <pre>npm install --save <%= package.name %></pre>
+
+    <% if (package.github) { %>
+    <h3>Clone this module using</h3>
+    <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
+    <% } %>
+  </section>
 
   <% if ('readme' in locals) { %>
   <article class="row markdown">

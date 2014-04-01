@@ -1,61 +1,85 @@
 @import syntax
 @import code
 
+$light-highlight = #f8f8f8
+$med-highlight = #cc3d33
+$dark-highlight = #c0392b
+
 .details
-  background-color: #fafdff
+  background-color: #fff
   margin: 0 -20px
   font-size: 15px
   line-height: 1.7em
 
+  abbr
+    cursor: help
+
   header
+    background-color: $light-highlight
+    margin-bottom: 2em
+    padding-bottom: 2em
+
     h1
     aside
-      margin-top: 36px
-      margin-bottom: 18px
+      color: $dark-highlight
+      margin-top: 40px
+      margin-bottom: 0px
 
     h1
       font-size: 36px
+
+    aside
+
+      a
+        font-weight: normal
+        color: $dark-highlight
+
+        &:hover
+          color: $dark-highlight
+          text-decoration: none
 
     small
       font-size: 14px
       line-height: 1.25em
       display: block
       font-weight: normal
-      color: #A5A5A5
+      color: $dark-highlight
 
       &:first-child
         margin-top: 8px
 
     .shift
+      font-size: 22px
       float: left
-      margin: 3px 5px 0 0
+      margin: 2px 5px 0 0
 
     .part
-      border-right: 1px solid #DDD
+      border-right: 1px solid #333
       margin-left: 8px
       padding-right: @margin-left
+      padding-top: 5px
       float: left
 
     strong
-      color: white
-      background-color: #A5A5A5
+      background-color: $dark-highlight
       border-radius: 2px
-      padding: 0 5px
-      margin-left: 8px
+      color: white
       float: left
+      font-size: 22px
+      margin-left: 8px
+      margin-top: 3px
+      padding: 0 5px
 
   aside
-    color: #A5A5A5
+    color: $med-highlight
 
     a
+      font-weight: normal
       color: @color
 
       &:hover
         color: @color
         text-decoration: none
-
-    s, a, strong
-      font-size: 22px
 
   a:hover
     color: #4183C4
@@ -65,17 +89,28 @@
     padding-bottom: 2em
     min-height: 240px
 
+    small
+      a
+        color: $med-highlight
+
+        &:hover
+          color: $med-highlight
+          text-decoration: underline
+
     a
-      color: #A5A5A5
+      color: #333
 
   h2
-    color: #A5A5A5
+    background-color: $light-highlight
+    color: $med-highlight
+    padding: 15px
 
     s
       float: left
       margin: 3px 10px 0 0
 
   .show-all
+    color: $light-highlight
     font-size: 15px
     border-bottom: 1px solid @color
 
@@ -124,10 +159,9 @@
     font-weight: bold
     height: 50px
     line-height: @height
-    margin-right: 25px
+    margin: 0 25px 0 0
     text-indent: @height + 20
     width: @height
-
 
   table
     border-collapse: collapse
@@ -135,8 +169,15 @@
     color: #999
 
     td
+      color: #333
       padding: 2px
       border: none
+
+.utility
+  pre
+    background-color: $light-highlight
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+    padding: 1em
 
 //
 // Custom markdown code that shouldn't affect the rest of page.
@@ -147,7 +188,7 @@
   position: relative
 
   .icon
-    color: #eaeaea
+    color: $light-highlight
     display: block
     margin-top: 24px
 
