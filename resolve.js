@@ -1,6 +1,7 @@
 'use strict';
 
-var Shrinkwrap = require('shrinkwrap')
+var debug = require('debug')('packages-pagelet:resolve')
+  , Shrinkwrap = require('shrinkwrap')
   , Registry = require('npm-registry')
   , readme = require('renderme')
   , moment = require('moment')
@@ -26,7 +27,7 @@ function resolve(name, options, next) {
   }
 
   options.registry = options.registry || Registry.mirrors.nodejitsu;
-  options.githulk = options.githulk || new GitHulk();
+  var githulk = options.githulk || new GitHulk();
 
   //
   // Only create a new Registry instance if we've been supplied with a string.
@@ -35,11 +36,11 @@ function resolve(name, options, next) {
     ? options.registry
     : new Registry({
       registry: options.registry,
-      githulk: options.githulk
+      githulk: githulk
   });
 
   var shrinkwrap = new Shrinkwrap({
-    githulk: options.githulk,       // Custom GitHulk instance so it can be re-used.
+    githulk: githulk,               // Custom GitHulk instance so it can be re-used.
     production: true,               // Don't include devDependencies.
     registry: npm                   // Do use a custom Registry instance.
   });
@@ -54,28 +55,33 @@ function resolve(name, options, next) {
     //
     async.parallel({
       shrinkwrap: function render(next) {
-        shrinkwrap.resolve(data, function resolved(err, data, dependent) {
-          next(err, dependent);
+        shrinkwrap.resolve(data, function resolved(err, data, nonfatal) {
+          next(err, data);
+
+          if (nonfatal && nonfatal.length) nonfatal.forEach(function (err) {
+            debug('non-fatal error while processing %s', name, err);
+          });
         });
       },
       readme: function render(next) {
-        readme(data, { githulk: options.githulk }, next);
+        readme(data, { githulk: githulk }, next);
       },
       github: function render(next) {
-        var project = options.githulk.project(data);
+        var project = githulk.project(data);
+
         if (!project || !project.user || !project.repo) return next();
 
         //
         // Get repository details but ignore any returned error by githulk.
         // This data is considered highly optional and should not stop processing.
         //
-        options.githulk.repository.moved(
+        githulk.repository.moved(
           project.user + '/' + project.repo,
           function moved(err, parsed, changed) {
             if (err) return next(null);
             if (changed) project = parsed;
 
-            options.githulk.repository.get(
+            githulk.repository.get(
               project.user + '/' + project.repo,
               function get(err, data) {
                 next(null, data);
@@ -116,11 +122,11 @@ function reduce(data, fn) {
   //
   if ('object' === typeof data.shrinkwrap) {
     Object.keys(data.shrinkwrap).forEach(function each(id) {
-      data.shrinkwrap[id].main = +(data.shrinkwrap[id].parent.name === data.package.name);
+      //data.shrinkwrap[id].main = +(data.shrinkwrap[id].parent.name === data.package.name);
 
       delete data.shrinkwrap[id].dependencies;
       delete data.shrinkwrap[id].dependent;
-      delete data.shrinkwrap[id].parent;
+      delete data.shrinkwrap[id].parents;
     });
   }
 
@@ -129,11 +135,6 @@ function reduce(data, fn) {
   //
   if (data.github && data.github.length) data.github = data.github.pop();
 
-  //
-  // Default to an empty object just in case so we dont check a bad reference
-  // in the view
-  //
-  data.github = data.github || {};
   //
   // Make sure we default to something so we don't get template errors
   //
