@@ -121,12 +121,15 @@ function reduce(data, fn) {
   // dependencies by providing them with a number, usefull for sorting later on.
   //
   if ('object' === typeof data.shrinkwrap) {
-    Object.keys(data.shrinkwrap).forEach(function each(id) {
-      //data.shrinkwrap[id].main = +(data.shrinkwrap[id].parent.name === data.package.name);
+    Object.keys(data.shrinkwrap).forEach(function each(_id) {
+      var shrinkwrap = data.shrinkwrap[_id]
+        , range = _id.split('@').pop();
 
-      delete data.shrinkwrap[id].dependencies;
-      delete data.shrinkwrap[id].dependent;
-      delete data.shrinkwrap[id].parents;
+      shrinkwrap.main = +(data.package.dependencies[shrinkwrap.name] === range);
+
+      delete shrinkwrap.dependencies;
+      delete shrinkwrap.dependent;
+      delete shrinkwrap.parents;
     });
   }
 
