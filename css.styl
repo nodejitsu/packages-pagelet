@@ -1,13 +1,12 @@
 @import syntax
 @import code
 
-$light-highlight = #f8f8f8
-$med-highlight = #03427D
-$dark-highlight = #033B70
+$light-highlight = #f4f4f4
+$med-highlight =  #2980b9
+$dark-highlight = #2980b9
 
 .details
   background-color: #fff
-  margin: 0 -20px
   font-size: 15px
   line-height: 1.7em
 
@@ -16,15 +15,17 @@ $dark-highlight = #033B70
 
   header
     background-color: $light-highlight
-    padding-bottom: 2em
+    margin: 0 -20px
+    padding: 0.5em 0 2em 0
 
     h1
     aside
       color: $dark-highlight
-      margin-top: 40px
+      margin-top: 20px
       margin-bottom: 0px
 
     h1
+      line-height: 1em
       font-size: 36px
 
     aside
@@ -53,11 +54,19 @@ $dark-highlight = #033B70
       margin: 2px 5px 0 0
 
     .part
-      border-right: 1px solid #333
+      border-right: 1px solid #999
       margin-left: 8px
       padding-right: @margin-left
       padding-top: 5px
       float: left
+
+      &:first-child
+        margin-left: 0
+        padding-top: 0
+        padding-bottom: 5px
+
+      &:last-child
+        border-right: 0px solid #999
 
     strong
       background-color: $dark-highlight
@@ -65,8 +74,7 @@ $dark-highlight = #033B70
       color: white
       float: left
       font-size: 22px
-      margin-left: 8px
-      margin-top: 3px
+      margin-top: 5px
       padding: 0 5px
 
   aside
@@ -85,31 +93,21 @@ $dark-highlight = #033B70
     text-decoration: underline
 
   .properties
-    padding-bottom: 2em
+    padding: 4em 0
     min-height: 240px
 
-    small
-      a
-        color: $med-highlight
-
-        &:hover
-          color: $med-highlight
-          text-decoration: underline
-
-    a
+    .name a
       color: #333
 
   h2
-    background-color: $light-highlight
     color: $med-highlight
-    padding: 15px
 
     s
       float: left
       margin: 3px 10px 0 0
 
   .show-all
-    color: $light-highlight
+    color: $med-highlight
     font-size: 15px
     border-bottom: 1px solid @color
 
@@ -184,10 +182,30 @@ $dark-highlight = #033B70
       text-align: right
 
 .utility
+  margin-top: 1em
+
+  h3
+    font-size: 16px
+    text-align: right
+    color: $dark-highlight
+    padding: 10px 0
+
   pre
-    background-color: $light-highlight
+    font-size: 12px
+    background-color: #666
+    color: white
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace
-    padding: 1em
+    border-radius: 5px
+    padding: 10px
+
+  h3
+  pre
+    margin-top: 15px
+    margin-bottom: 15px
+
+.readme
+  background-color: $light-highlight
+  margin: 0 -20px
 
 //
 // Custom markdown code that shouldn't affect the rest of page.
@@ -198,7 +216,7 @@ $dark-highlight = #033B70
   position: relative
 
   .icon
-    color: $light-highlight
+    color: $dark-highlight
     display: block
     margin-top: 24px
 
@@ -230,7 +248,7 @@ $dark-highlight = #033B70
     position: relative
 
   h1
-    border-bottom: 1px solid #DDD
+    border-bottom: 1px solid #666
     font-size: 2.5em
 
   h2

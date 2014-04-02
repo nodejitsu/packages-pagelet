@@ -2,23 +2,33 @@
   <div class="details">
     <header>
       <section class="row">
-        <h1 class="sixcol">
-          <%= package.name %> / <%= package.version %>
-          <% if (package.modified) { %>
-          <small data-date="<%= package.modified.full %>">
-            last updated <%= package.modified.ago %>
-          </small>
-          <% } %>
+        <section class="sixcol">
+          <h1 class="row">
+            <%= package.name %> / <%= package.version %>
+            <% if (package.modified) { %>
+            <small data-date="<%= package.modified.full %>">
+              last updated <%= package.modified.ago %>
+            </small>
+            <% } %>
 
-          <% if (package.created) { %>
-          <small data-date="<%= package.created.full %>">
-            created on <%= package.created.human %>
-          </small>
-          <% } %>
-        </h1>
+            <% if (package.created) { %>
+            <small data-date="<%= package.created.full %>">
+              created on <%= package.created.human %>
+            </small>
+            <% } %>
+          </h1>
 
-        <aside class="sixcol last">
-          <div class="right">
+          <aside class="row">
+            <div class="part">
+              <% if (package.licenses) { %>
+              <% package.licenses.forEach(function (license) { %>
+              <strong><%= license %></strong>
+              <% }) %>
+              <% } else { %>
+              <strong>Unknown</strong>
+              <% } %>
+            </div>
+
             <div class="part">
               <s class="shift ss-icon ss-standard ss-star"></s>
               <%= (package.starred || []).length %>
@@ -33,6 +43,8 @@
             </div>
             <% } %>
 
+
+            <% if (package.homepage || package.bugs) { %>
             <div class="part">
               <% if (package.homepage) { %>
               <a class="shift ss-icon ss-standard ss-home" href="<%= package.homepage.url %>" rel="nofollow" target="_blank"></a>
@@ -42,32 +54,26 @@
               <a class="shift ss-icon ss-standard ss-alert" href="<%= package.bugs.url %>" rel="nofollow" target="_blank"></a>
               <% } %>
             </div>
-
-            <% if (package.licenses) { %>
-            <% package.licenses.forEach(function (license) { %>
-            <strong><%= license %></strong>
-            <% }) %>
-            <% } else { %>
-            <strong>Unknown</strong>
             <% } %>
+
+          </aside>
+        </section>
+
+        <section class="sixcol last utility">
+          <div class="row">
+            <h3 class="twocol">Install</h3>
+            <pre class="tencol last">npm install --save <%= package.name %></pre>
           </div>
-        </aside>
+
+          <% if (package.github) { %>
+          <div class="row">
+            <h3 class="twocol">Clone</h3>
+            <pre class="tencol last">git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
+          </div>
+          <% } %>
+        </section>
       </section>
     </header>
-
-    <section class="row utility">
-      <div class="sixcol">
-        <h3>Install this module by running</h3>
-        <pre>npm install --save <%= package.name %></pre>
-      </div>
-
-      <% if (package.github) { %>
-      <div class="sixcol last">
-        <h3>Clone this module using</h3>
-        <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
-      </div>
-      <% } %>
-    </section>
 
     <section class="properties row">
       <div class="fourcol dependencies">
@@ -177,13 +183,15 @@
   </div>
 
   <% if ('readme' in locals) { %>
-  <article class="row markdown">
-    <div class="right icon">
-      <h3>readme</h3>
-      <s class="ss-icon ss-standard ss-file"></s>
-    </div>
-    <%- readme %>
-  </article>
+  <section class="readme">
+    <article class="row markdown">
+      <div class="right icon">
+        <h3>readme</h3>
+        <s class="ss-icon ss-standard ss-file"></s>
+      </div>
+      <%- readme %>
+    </article>
+  </section>
   <% } %>
 </article>
 
