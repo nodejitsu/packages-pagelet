@@ -1,13 +1,12 @@
 @import syntax
 @import code
 
-$light-highlight = #f8f8f8
-$med-highlight = #03427D
-$dark-highlight = #033B70
+$light-highlight = #efefef
+$med-highlight =  #2980b9
+$dark-highlight = #2980b9
 
 .details
   background-color: #fff
-  margin: 0 -20px
   font-size: 15px
   line-height: 1.7em
 
@@ -16,6 +15,7 @@ $dark-highlight = #033B70
 
   header
     background-color: $light-highlight
+    margin: 0 -20px
     padding-bottom: 2em
 
     h1
@@ -85,31 +85,21 @@ $dark-highlight = #033B70
     text-decoration: underline
 
   .properties
-    padding-bottom: 2em
+    padding: 4em 0
     min-height: 240px
 
-    small
-      a
-        color: $med-highlight
-
-        &:hover
-          color: $med-highlight
-          text-decoration: underline
-
-    a
+    .name a
       color: #333
 
   h2
-    background-color: $light-highlight
     color: $med-highlight
-    padding: 15px
 
     s
       float: left
       margin: 3px 10px 0 0
 
   .show-all
-    color: $light-highlight
+    color: $med-highlight
     font-size: 15px
     border-bottom: 1px solid @color
 
@@ -173,10 +163,21 @@ $dark-highlight = #033B70
       border: none
 
 .utility
+  margin-top: 2em
+
+  h3
+    color: $dark-highlight
+
   pre
-    background-color: $light-highlight
+    background-color: #666
+    color: white
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+    border-radius: 5px
     padding: 1em
+
+.readme
+  background-color: $light-highlight
+  margin: 0 -20px
 
 //
 // Custom markdown code that shouldn't affect the rest of page.
@@ -187,7 +188,7 @@ $dark-highlight = #033B70
   position: relative
 
   .icon
-    color: $light-highlight
+    color: $dark-highlight
     display: block
     margin-top: 24px
 
@@ -219,7 +220,7 @@ $dark-highlight = #033B70
     position: relative
 
   h1
-    border-bottom: 1px solid #DDD
+    border-bottom: 1px solid #666
     font-size: 2.5em
 
   h2

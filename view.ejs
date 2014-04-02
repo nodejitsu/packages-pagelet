@@ -53,7 +53,6 @@
           </div>
         </aside>
       </section>
-    </header>
 
     <section class="row utility">
       <div class="sixcol">
@@ -68,6 +67,8 @@
       </div>
       <% } %>
     </section>
+
+    </header>
 
     <section class="properties row">
       <div class="fourcol dependencies">
@@ -177,13 +178,15 @@
   </div>
 
   <% if ('readme' in locals) { %>
-  <article class="row markdown">
-    <div class="right icon">
-      <h3>readme</h3>
-      <s class="ss-icon ss-standard ss-file"></s>
-    </div>
-    <%- readme %>
-  </article>
+  <section class="readme">
+    <article class="row markdown">
+      <div class="right icon">
+        <h3>readme</h3>
+        <s class="ss-icon ss-standard ss-file"></s>
+      </div>
+      <%- readme %>
+    </article>
+  </section>
   <% } %>
 </article>
 
