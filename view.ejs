@@ -2,23 +2,23 @@
   <div class="details">
     <header>
       <section class="row">
-        <h1 class="sixcol">
-          <%= package.name %> / <%= package.version %>
-          <% if (package.modified) { %>
-          <small data-date="<%= package.modified.full %>">
-            last updated <%= package.modified.ago %>
-          </small>
-          <% } %>
+        <section class="sixcol">
+          <h1 class="row">
+            <%= package.name %> / <%= package.version %>
+            <% if (package.modified) { %>
+            <small data-date="<%= package.modified.full %>">
+              last updated <%= package.modified.ago %>
+            </small>
+            <% } %>
 
-          <% if (package.created) { %>
-          <small data-date="<%= package.created.full %>">
-            created on <%= package.created.human %>
-          </small>
-          <% } %>
-        </h1>
+            <% if (package.created) { %>
+            <small data-date="<%= package.created.full %>">
+              created on <%= package.created.human %>
+            </small>
+            <% } %>
+          </h1>
 
-        <aside class="sixcol last">
-          <div class="right">
+          <aside class="row">
             <div class="part">
               <s class="shift ss-icon ss-standard ss-star"></s>
               <%= (package.starred || []).length %>
@@ -50,24 +50,23 @@
             <% } else { %>
             <strong>Unknown</strong>
             <% } %>
+          </aside>
+        </section>
+
+        <section class="sixcol last utility">
+          <div class="row">
+            <h3 class="twocol">Install</h3>
+            <pre class="tencol last">npm install --save <%= package.name %></pre>
           </div>
-        </aside>
+
+          <% if (package.github) { %>
+          <div class="row">
+            <h3 class="twocol">Clone</h3>
+            <pre class="tencol last">git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
+          </div>
+          <% } %>
+        </section>
       </section>
-
-    <section class="row utility">
-      <div class="sixcol">
-        <h3>Install this module by running</h3>
-        <pre>npm install --save <%= package.name %></pre>
-      </div>
-
-      <% if (package.github) { %>
-      <div class="sixcol last">
-        <h3>Clone this module using</h3>
-        <pre>git clone git@github.com:<%= package.github.user %>/<%= package.github.repo %>.git</pre>
-      </div>
-      <% } %>
-    </section>
-
     </header>
 
     <section class="properties row">
