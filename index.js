@@ -20,7 +20,7 @@ Pagelet.extend({
   // script tag. This dependency is needed forthe `package.js` client file.
   //
   dependencies: [
-    'http://code.jquery.com/jquery-2.1.0.min.js',
+    '//code.jquery.com/jquery-2.1.0.min.js',
     Contour.get('npm').styl
   ],
 
