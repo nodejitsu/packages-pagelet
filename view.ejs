@@ -20,6 +20,16 @@
 
           <aside class="row">
             <div class="part">
+              <% if (package.licenses) { %>
+              <% package.licenses.forEach(function (license) { %>
+              <strong><%= license %></strong>
+              <% }) %>
+              <% } else { %>
+              <strong>Unknown</strong>
+              <% } %>
+            </div>
+
+            <div class="part">
               <s class="shift ss-icon ss-standard ss-star"></s>
               <%= (package.starred || []).length %>
             </div>
@@ -33,6 +43,8 @@
             </div>
             <% } %>
 
+
+            <% if (package.homepage || package.bugs) { %>
             <div class="part">
               <% if (package.homepage) { %>
               <a class="shift ss-icon ss-standard ss-home" href="<%= package.homepage.url %>" rel="nofollow" target="_blank"></a>
@@ -42,14 +54,8 @@
               <a class="shift ss-icon ss-standard ss-alert" href="<%= package.bugs.url %>" rel="nofollow" target="_blank"></a>
               <% } %>
             </div>
-
-            <% if (package.licenses) { %>
-            <% package.licenses.forEach(function (license) { %>
-            <strong><%= license %></strong>
-            <% }) %>
-            <% } else { %>
-            <strong>Unknown</strong>
             <% } %>
+
           </aside>
         </section>
 

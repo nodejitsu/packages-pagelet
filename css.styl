@@ -16,7 +16,7 @@ $dark-highlight = #2980b9
   header
     background-color: $light-highlight
     margin: 0 -20px
-    padding-bottom: 2em
+    padding: 0.5em 0 2em 0
 
     h1
     aside
@@ -54,11 +54,19 @@ $dark-highlight = #2980b9
       margin: 2px 5px 0 0
 
     .part
-      border-right: 1px solid #333
+      border-right: 1px solid #999
       margin-left: 8px
       padding-right: @margin-left
       padding-top: 5px
       float: left
+
+      &:first-child
+        margin-left: 0
+        padding-top: 0
+        padding-bottom: 5px
+
+      &:last-child
+        border-right: 0px solid #999
 
     strong
       background-color: $dark-highlight
@@ -66,8 +74,7 @@ $dark-highlight = #2980b9
       color: white
       float: left
       font-size: 22px
-      margin-left: 8px
-      margin-top: 3px
+      margin-top: 5px
       padding: 0 5px
 
   aside
@@ -167,20 +174,23 @@ $dark-highlight = #2980b9
   margin-top: 1em
 
   h3
+    font-size: 16px
     text-align: right
     color: $dark-highlight
+    padding: 10px 0
 
   pre
+    font-size: 12px
     background-color: #666
     color: white
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace
     border-radius: 5px
+    padding: 10px
 
   h3
   pre
     margin-top: 15px
     margin-bottom: 15px
-    padding: 10px
 
 .readme
   background-color: $light-highlight
