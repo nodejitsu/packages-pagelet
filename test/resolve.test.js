@@ -6,7 +6,7 @@ describe('resolve', function () {
     , expect = chai.expect
     , data;
 
-  this.timeout(20000);
+  this.timeout(60000);
 
   before(function clean(done) {
     resolve('primus', function resolved(err, obj) {
