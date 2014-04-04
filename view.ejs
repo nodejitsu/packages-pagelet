@@ -116,13 +116,13 @@
               <td class="version"><%= dependency.version %></td>
               <td class="license right">
                 <% if (dependency.licenses) { %>
-                  <%- 
+                  <%-
                     !(dependency.licenses || []).length ? 'Unknown' : dependency.licenses.map(function (license) {
                       var info = licenses(license);
-                      return info && info.url 
-                        ? '<a href="'+ info.url +'" title="'+ info.full +'" target="_blank">'+ license +'</a>' 
+                      return info && info.url
+                        ? '<a href="'+ info.url +'" title="'+ info.full +'" target="_blank">'+ license +'</a>'
                         : license;
-                    }).join(', ') 
+                    }).join(', ')
                   %>
                 <% } else { %>
                   Unknown
@@ -198,7 +198,7 @@
   <% if ('readme' in locals) { %>
   <section class="readme">
     <article class="row markdown">
-      <div class="right icon">
+      <div class="twocol last right icon">
         <h3>readme</h3>
         <s class="ss-icon ss-standard ss-file"></s>
       </div>
