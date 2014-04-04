@@ -3,6 +3,7 @@
 var debug = require('debug')('packages-pagelet:resolve')
   , Shrinkwrap = require('shrinkwrap')
   , Registry = require('npm-registry')
+  , licenses = require('licenses')
   , readme = require('renderme')
   , moment = require('moment')
   , async = require('async');
@@ -72,7 +73,7 @@ function resolve(name, options, next) {
         if (!project || !project.user || !project.repo) return next();
 
         //
-        // Get repository details but ignore any returned error by githulk.
+        // Get repository details but ignore any returned error by GitHulk.
         // This data is considered highly optional and should not stop processing.
         //
         githulk.repository.moved(
@@ -118,7 +119,7 @@ function reduce(data, fn) {
   //
   // Remove circular references as it would prevent us from caching in Redis or
   // what ever because there's a circular reference. Keep track of what are main
-  // dependencies by providing them with a number, usefull for sorting later on.
+  // dependencies by providing them with a number, useful for sorting later on.
   //
   if ('object' === typeof data.shrinkwrap) {
     Object.keys(data.shrinkwrap).forEach(function each(_id) {
@@ -142,29 +143,6 @@ function reduce(data, fn) {
   // Make sure we default to something so we don't get template errors
   //
   data.readme = data.readme || data.package.description || '';
-
-  //
-  // Make all dates human readable.
-  //
-  if (data.package.time) Object.keys(data.package.time).forEach(function (time) {
-    var date = data.package.time[time];
-
-    data.package.time[time] = {
-      human: moment(date).format('MMM Do YYYY'),
-      ago: moment(date).fromNow(),
-      full: date
-    };
-  });
-
-  ['created', 'modified'].forEach(function (time) {
-    var date = data.package[time];
-
-    data.package[time] = {
-      human: moment(date).format('MMM Do YYYY'),
-      ago: moment(date).fromNow(),
-      full: date
-    };
-  });
 
   //
   // Transform shrinkwrap to an array and prioritize main dependencies.
@@ -193,8 +171,52 @@ function reduce(data, fn) {
   fn(undefined, data);
 }
 
+/**
+ * Fine post processing step on the data before it gets rendered.
+ *
+ * @param {Object} data The resolved data from cache or directly from the resolver.
+ * @returns {Object} data Modified data.
+ * @api private
+ */
+function postprocess(data) {
+  //
+  // Make all dates human readable.
+  //
+  if (data.package.time) Object.keys(data.package.time).forEach(function (time) {
+    var date = data.package.time[time];
+
+    if ('string' === typeof date && date.full) date = date.full;
+
+    data.package.time[time] = {
+      human: moment(date).format('MMM Do YYYY'),
+      ago: moment(date).fromNow(),
+      full: date
+    };
+  });
+
+  ['created', 'modified'].forEach(function (time) {
+    var date = data.package[time];
+
+    if ('string' === typeof date && date.full) date = date.full;
+
+    data.package[time] = {
+      human: moment(date).format('MMM Do YYYY'),
+      ago: moment(date).fromNow(),
+      full: date
+    };
+  });
+
+  //
+  // Expose helper method.
+  //
+  data.licenses = licenses.info;
+
+  return data;
+}
+
 //
 // Expose the methods.
 //
 resolve.reduce = reduce;
+resolve.postprocess = postprocess;
 module.exports = resolve;

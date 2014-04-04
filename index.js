@@ -1,10 +1,10 @@
 'use strict';
 
-var Registry = require('npm-registry')
-  , Pagelet = require('pagelet')
-  , Contour = require('contour')
+var major = require('./package.json').version.slice(0, 1)
+  , Registry = require('npm-registry')
   , resolve = require('./resolve')
-  , major = require('./package.json').version.slice(0, 1);
+  , Pagelet = require('pagelet')
+  , Contour = require('contour');
 
 Pagelet.extend({
   //
@@ -12,12 +12,12 @@ Pagelet.extend({
   //
   view: 'view.ejs',       // The template that gets rendered.
   css:  'css.styl',       // All CSS required to render this component.
-  js:   'package.js',     // Progressive enhancements for the UI.
+  js:   'client.js',      // Progressive enhancements for the UI.
   resolve: resolve,       // Expose the resolver so it can be overridden.
 
   //
   // External dependencies that should be included on the page using a regular
-  // script tag. This dependency is needed forthe `package.js` client file.
+  // script tag. This dependency is needed for the `package.js` client file.
   //
   dependencies: [
     '//code.jquery.com/jquery-2.1.0.min.js',
@@ -28,8 +28,8 @@ Pagelet.extend({
    * There are parts of page that could require Github API access. As you might
    * know there is rate limiting in place for API calls. Unauthorized calls are
    * 60 RPH (requests per hour) and authorized is 5000 RPH. You can create an
-   * authorized githulk instance which we will be used instead of a default
-   * unauthorized githulk.
+   * authorized GitHulk instance which we will be used instead of a default
+   * unauthorized GitHulk.
    *
    * @type {Githulk|Null}
    * @api public
@@ -145,13 +145,27 @@ Pagelet.extend({
    * Prepare the data for rendering. All the data that is send to the callback
    * is exposed in the template.
    *
-   * @param {Function} next Completion callback.
+   * @param {Function} render Completion callback.
    * @api private
    */
-  get: function get(next) {
+  get: function get(render) {
     var name = this.params.name
       , pagelet = this
       , key;
+
+    /**
+     * Add the last additional post processing step to the data. Some things can
+     * only be done on the fly and should not be cached.
+     *
+     * @param {Error} err Optional error argument
+     * @param {Object} data The data.
+     * @api private
+     */
+    function next(err, data) {
+      if (err) return render(err);
+
+      render(undefined, pagelet.resolve.postprocess(data));
+    }
 
     this.latest(name, function latest(err, version) {
       if (err) return next(err);

@@ -28,6 +28,7 @@
     "contour": "~0.2.0",
     "debug": "0.8.x",
     "ejs": "0.8.x",
+    "licenses": "0.0.x",
     "moment": "2.5.x",
     "npm-registry": "0.1.x",
     "pagelet": "0.2.x",
