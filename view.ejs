@@ -27,7 +27,7 @@
               <% if (package.licenses) { %>
               <% package.licenses.forEach(function (license) { %>
               <% var info = licenses(license) %>
-              <% if (info && info.url) { %><a href="<%= info.url %>" title="<%= info.full %>"><% } %>
+              <% if (info && info.url) { %><a href="<%= info.url %>" title="<%= info.full %>" target="_blank"><% } %>
               <strong><%= license %></strong>
               <% if (info && info.url) { %></a><% } %>
               <% }) %>
@@ -116,7 +116,14 @@
               <td class="version"><%= dependency.version %></td>
               <td class="license right">
                 <% if (dependency.licenses) { %>
-                  <%= !(dependency.licenses || []).length ? 'Unknown' : dependency.licenses.join(', ') %>
+                  <%- 
+                    !(dependency.licenses || []).length ? 'Unknown' : dependency.licenses.map(function (license) {
+                      var info = licenses(license);
+                      return info && info.url 
+                        ? '<a href="'+ info.url +'" title="'+ info.full +'" target="_blank">'+ license +'</a>' 
+                        : license;
+                    }).join(', ') 
+                  %>
                 <% } else { %>
                   Unknown
                 <% } %>
