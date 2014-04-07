@@ -3,8 +3,10 @@
 var major = require('./package.json').version.slice(0, 1)
   , Registry = require('npm-registry')
   , resolve = require('./resolve')
+  , licenses = require('licenses')
   , Pagelet = require('pagelet')
-  , Contour = require('contour');
+  , Contour = require('contour')
+  , moment = require('moment');
 
 Pagelet.extend({
   //
@@ -58,6 +60,49 @@ Pagelet.extend({
    */
   key: function key(name, version) {
     return 'v'+ major +':'+ name +'@'+ version;
+  },
+
+  /**
+   * Fine post processing step on the data before it gets rendered.
+   *
+   * @param {Object} data The resolved data from cache or directly from the resolver.
+   * @returns {Object} data Modified data.
+   * @api private
+   */
+  postprocess: function postproces(data) {
+    //
+    // Make all dates human readable.
+    //
+    if (data.package.time) Object.keys(data.package.time).forEach(function (time) {
+      var date = data.package.time[time];
+
+      if ('string' === typeof date && date.full) date = date.full;
+
+      data.package.time[time] = {
+        human: moment(date).format('MMM Do YYYY'),
+        ago: moment(date).fromNow(),
+        full: date
+      };
+    });
+
+    ['created', 'modified'].forEach(function (time) {
+      var date = data.package[time];
+
+      if ('string' === typeof date && date.full) date = date.full;
+
+      data.package[time] = {
+        human: moment(date).format('MMM Do YYYY'),
+        ago: moment(date).fromNow(),
+        full: date
+      };
+    });
+
+    //
+    // Expose helper method.
+    //
+    data.licenses = licenses.info;
+
+    return data;
   },
 
   /**
@@ -164,7 +209,7 @@ Pagelet.extend({
     function next(err, data) {
       if (err) return render(err);
 
-      render(undefined, pagelet.resolve.postprocess(data));
+      render(undefined, pagelet.postprocess(data));
     }
 
     this.latest(name, function latest(err, version) {

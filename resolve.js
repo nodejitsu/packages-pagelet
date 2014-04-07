@@ -3,9 +3,7 @@
 var debug = require('debug')('packages-pagelet:resolve')
   , Shrinkwrap = require('shrinkwrap')
   , Registry = require('npm-registry')
-  , licenses = require('licenses')
   , readme = require('renderme')
-  , moment = require('moment')
   , async = require('async');
 
 //
@@ -171,52 +169,8 @@ function reduce(data, fn) {
   fn(undefined, data);
 }
 
-/**
- * Fine post processing step on the data before it gets rendered.
- *
- * @param {Object} data The resolved data from cache or directly from the resolver.
- * @returns {Object} data Modified data.
- * @api private
- */
-function postprocess(data) {
-  //
-  // Make all dates human readable.
-  //
-  if (data.package.time) Object.keys(data.package.time).forEach(function (time) {
-    var date = data.package.time[time];
-
-    if ('string' === typeof date && date.full) date = date.full;
-
-    data.package.time[time] = {
-      human: moment(date).format('MMM Do YYYY'),
-      ago: moment(date).fromNow(),
-      full: date
-    };
-  });
-
-  ['created', 'modified'].forEach(function (time) {
-    var date = data.package[time];
-
-    if ('string' === typeof date && date.full) date = date.full;
-
-    data.package[time] = {
-      human: moment(date).format('MMM Do YYYY'),
-      ago: moment(date).fromNow(),
-      full: date
-    };
-  });
-
-  //
-  // Expose helper method.
-  //
-  data.licenses = licenses.info;
-
-  return data;
-}
-
 //
 // Expose the methods.
 //
 resolve.reduce = reduce;
-resolve.postprocess = postprocess;
 module.exports = resolve;
