@@ -145,7 +145,7 @@ function reduce(data, fn) {
   data.shrinkwrap = Object.keys(data.shrinkwrap || {}).map(function wrap(_id) {
     return data.shrinkwrap[_id];
   }).sort(function sort(a, b) {
-    return b.depth > a.depth;
+    return a.depth - b.depth;
   });
 
   //

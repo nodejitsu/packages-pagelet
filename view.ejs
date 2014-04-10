@@ -94,7 +94,7 @@
           </small>
           <% } %>
         </h2>
-        <% if (shrinkwrap.length) { var c = 1, p = 1 %>
+        <% if (shrinkwrap.length) { var sub = false; %>
         <table class="more">
           <tbody>
             <% shrinkwrap.forEach(function (dependency, index) { %>
@@ -102,7 +102,7 @@
               <td class="type">
                 <% if (!index) { %>
                 <abbr title="The module's main dependencies">main</abbr>
-                <% } else if (p !== dependency.main) { %>
+                <% } else if (dependency.depth !== 0 && !sub) { sub = true; %>
                 <abbr title="Dependencies of dependencies">sub</abbr>
                 <% } %>
               </td>
@@ -129,7 +129,7 @@
                 <% } %>
               </td>
             </tr>
-            <% p = dependency.main }) %>
+            <% }) %>
           </tbody>
         </table>
         <% } else { %>
