@@ -121,10 +121,7 @@ function reduce(data, fn) {
   //
   if ('object' === typeof data.shrinkwrap) {
     Object.keys(data.shrinkwrap).forEach(function each(_id) {
-      var shrinkwrap = data.shrinkwrap[_id]
-        , range = _id.split('@').pop();
-
-      shrinkwrap.main = +(data.package.dependencies[shrinkwrap.name] === range);
+      var shrinkwrap = data.shrinkwrap[_id];
 
       delete shrinkwrap.dependencies;
       delete shrinkwrap.dependent;
@@ -143,12 +140,12 @@ function reduce(data, fn) {
   data.readme = data.readme || data.package.description || '';
 
   //
-  // Transform shrinkwrap to an array and prioritize main dependencies.
+  // Transform shrinkwrap to an array and prioritize on depth.
   //
   data.shrinkwrap = Object.keys(data.shrinkwrap || {}).map(function wrap(_id) {
     return data.shrinkwrap[_id];
   }).sort(function sort(a, b) {
-    return b.main - a.main;
+    return b.depth > a.depth;
   });
 
   //

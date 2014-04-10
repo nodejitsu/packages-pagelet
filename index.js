@@ -63,7 +63,7 @@ Pagelet.extend({
   },
 
   /**
-   * Fine post processing step on the data before it gets rendered.
+   * Final post processing step on the data before it gets rendered.
    *
    * @param {Object} data The resolved data from cache or directly from the resolver.
    * @returns {Object} data Modified data.

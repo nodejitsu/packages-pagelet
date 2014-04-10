@@ -25,7 +25,7 @@
   "homepage": "https://github.com/nodejitsu/packages-pagelet",
   "dependencies": {
     "async": "0.2.x",
-    "contour": "~0.2.0",
+    "contour": "0.2.x",
     "debug": "0.8.x",
     "ejs": "0.8.x",
     "licenses": "0.0.x",
@@ -33,7 +33,7 @@
     "npm-registry": "0.1.x",
     "pagelet": "0.2.x",
     "renderme": "0.0.x",
-    "shrinkwrap": "0.3.x"
+    "shrinkwrap": "0.4.x"
   },
   "devDependencies": {
     "chai": "1.9.x",
