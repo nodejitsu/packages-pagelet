@@ -6,7 +6,8 @@ var major = require('./package.json').version.slice(0, 1)
   , licenses = require('licenses')
   , Pagelet = require('pagelet')
   , Contour = require('contour')
-  , moment = require('moment');
+  , moment = require('moment')
+  , brand = Contour.get('npm');
 
 Pagelet.extend({
   //
@@ -23,7 +24,13 @@ Pagelet.extend({
   //
   dependencies: [
     '//code.jquery.com/jquery-2.1.0.min.js',
-    Contour.get('npm').styl
+    brand.normalize,
+    brand.global,
+    brand.grid,
+    brand.icons,
+    brand.typography,
+    brand.animations,
+    brand.tables
   ],
 
   /**
