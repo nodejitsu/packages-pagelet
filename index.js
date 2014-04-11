@@ -76,7 +76,7 @@ Pagelet.extend({
     if (data.package.time) Object.keys(data.package.time).forEach(function (time) {
       var date = data.package.time[time];
 
-      if ('string' === typeof date && date.full) date = date.full;
+      if ('string' !== typeof date && date.full) date = date.full;
 
       data.package.time[time] = {
         human: moment(date).format('MMM Do YYYY'),
@@ -88,7 +88,7 @@ Pagelet.extend({
     ['created', 'modified'].forEach(function (time) {
       var date = data.package[time];
 
-      if ('string' === typeof date && date.full) date = date.full;
+      if ('string' !== typeof date && date.full) date = date.full;
 
       data.package[time] = {
         human: moment(date).format('MMM Do YYYY'),
