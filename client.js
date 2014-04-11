@@ -11,6 +11,8 @@ pipe.once('package::initialise', function (data, pagelet) {
   // Show more rows when we click on the table footer.
   //
   pagelet.on('click', '.details .show-all', function click(e) {
+    if (!~this.href.indexOf('#')) return; // We have a dependencies pagelet.
+
     e.preventDefault();
 
     var element = $(this)

@@ -10,6 +10,7 @@ Page.extend({
   pagelets: {             // The pagelets that should be rendered.
     package: require('../../').extend({
       cache: new Filecache(),
+      dependenciesPagelet: '/dependencies',
       githulk: new GitHulk({
         token: process.env.GITHUB_TOKEN
       })

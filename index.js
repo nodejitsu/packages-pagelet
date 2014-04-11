@@ -63,6 +63,14 @@ Pagelet.extend({
   },
 
   /**
+   * Do we have a dedicated dependencies pagelet?
+   *
+   * @type {Boolean}
+   * @api public
+   */
+  dependenciesPagelet: false,
+
+  /**
    * Final post processing step on the data before it gets rendered.
    *
    * @param {Object} data The resolved data from cache or directly from the resolver.
@@ -208,6 +216,9 @@ Pagelet.extend({
      */
     function next(err, data) {
       if (err) return render(err);
+
+      data = data || {};
+      data.dependenciesPagelet = pagelet.dependenciesPagelet;
 
       render(undefined, pagelet.postprocess(data));
     }

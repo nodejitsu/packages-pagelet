@@ -88,8 +88,9 @@
           dependencies
           <% if (shrinkwrap.length > 5) { %>
           <small class="right">
-            <a href="#/more-dependencies" class="show-all" data-text="show less">
-              +<%= shrinkwrap.length - 5 %> more
+            <% var url = dependenciesPagelet ? dependenciesPagelet +'/'+ package.name : '#/more-dependencies' %>
+            <a href="<%= url %>" class="show-all" data-text="show less">
+              show all <%= shrinkwrap.length %> dependencies
             </a>
           </small>
           <% } %>
@@ -98,6 +99,7 @@
         <table class="more">
           <tbody>
             <% shrinkwrap.forEach(function (dependency, index) { %>
+            <% if (dependenciesPagelet && (index >= 5 || dependency.depth !== 0)) return; %>
             <tr class="<%= index >= 5 ? ' gone' : '' %>">
               <td class="type">
                 <% if (!index) { %>
