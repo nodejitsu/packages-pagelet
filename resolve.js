@@ -99,10 +99,11 @@ function resolve(name, options, next) {
       if (err) return next(err);
 
       reduce({
-        package: data,
-        readme: additional.readme,
         shrinkwrap: additional.shrinkwrap,
-        github: additional.github
+        depended: additional.depended,
+        readme: additional.readme,
+        github: additional.github,
+        package: data
       }, next);
     });
   });
