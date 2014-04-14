@@ -15,4 +15,4 @@ dist
 
 npm-debug.log
 node_modules
-.tern-port
+.tern-porttest.js
