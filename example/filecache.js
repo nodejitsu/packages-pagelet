@@ -27,6 +27,8 @@ function Filecache(options) {
  * @api public
  */
 Filecache.prototype.get = function get(name, fn) {
+  if (process.env.NO_CACHE) return fn();
+
   fs.readFile(path.join(this.directory, '/'+ name +'.json'), 'utf-8', function (err, data) {
     if (err) return fn(err);
 
@@ -48,6 +50,8 @@ Filecache.prototype.get = function get(name, fn) {
  * @api public
  */
 Filecache.prototype.set = function set(name, data, fn) {
+  if (process.env.NO_CACHE) return fn();
+
   try { data = JSON.stringify(data, null, 2); }
   catch(e) {
     console.error('Failed to store data because of circular data references in %s: %s', name, e.message);
