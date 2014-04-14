@@ -62,9 +62,15 @@ function resolve(name, options, next) {
           });
         });
       },
+
+      depended: function render(next) {
+        npm.packages.depended(name, next);
+      },
+
       readme: function render(next) {
         readme(data, { githulk: githulk }, next);
       },
+
       github: function render(next) {
         var project = githulk.project(data);
 
