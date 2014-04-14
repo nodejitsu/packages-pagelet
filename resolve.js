@@ -98,13 +98,8 @@ function resolve(name, options, next) {
     }, function parallel(err, additional) {
       if (err) return next(err);
 
-      reduce({
-        shrinkwrap: additional.shrinkwrap,
-        depended: additional.depended,
-        readme: additional.readme,
-        github: additional.github,
-        package: data
-      }, next);
+      additional.package = data;
+      reduce(additional, next);
     });
   });
 }
