@@ -38,6 +38,12 @@ Filecache.prototype.get = function get(name, fn) {
       return fn(e);
     }
 
+    if (data.expire && data.now && data.data) {
+      if (Date.now() - data.now > data.expire) return fn();
+
+      data = data.data;
+    }
+
     fn(undefined, data);
   });
 };
@@ -46,13 +52,21 @@ Filecache.prototype.get = function get(name, fn) {
  * Store a new cache file.
  *
  * @param {String} name The name of the module.
- * @param {Function} fn The callback
+ * @param {Mixed} data Stuff to store.
+ * @param {Number} expire Data expiration.
+ * @param {Function} fn The callback.
  * @api public
  */
-Filecache.prototype.set = function set(name, data, fn) {
+Filecache.prototype.set = function set(name, data, expire, fn) {
   if (process.env.NO_CACHE) return fn();
 
-  try { data = JSON.stringify(data, null, 2); }
+  var value = {
+    expire: expire,
+    data: data,
+    now: Date.now()
+  };
+
+  try { data = JSON.stringify(value, null, 2); }
   catch(e) {
     console.error('Failed to store data because of circular data references in %s: %s', name, e.message);
     return fn(e);
