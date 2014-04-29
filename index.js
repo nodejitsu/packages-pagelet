@@ -7,7 +7,8 @@ var major = require('./package.json').version.slice(0, 1)
   , Pagelet = require('pagelet')
   , Contour = require('contour')
   , moment = require('moment')
-  , brand = Contour.get('npm');
+  , brand = Contour.get('npm')
+  , ms = require('ms');
 
 Pagelet.extend({
   //
@@ -32,6 +33,20 @@ Pagelet.extend({
     brand.animations,
     brand.tables
   ],
+
+  /**
+   * The different expirations:
+   *
+   * - latest: This expires the latest version number of a given package.
+   * - data: This expires the resolved data for a given version number.
+   *
+   * @type {Object}
+   * @api public
+   */
+  expire: {
+    latest: ms('1 hours'),
+    data: ms('1 week')
+  },
 
   /**
    * There are parts of page that could require Github API access. As you might
@@ -142,7 +157,7 @@ Pagelet.extend({
         if (err) return fn(err);
 
         if (Array.isArray(data)) data = data[0];
-        pagelet.fireforget('set', key, data.version);
+        pagelet.fireforget('set', key, data.version, pagelet.expire.latest);
 
         fn(undefined, data.version);
       });
@@ -155,13 +170,19 @@ Pagelet.extend({
    * @param {String} method The cache method we went to invoke.
    * @param {String} key The key we want to retrieve.
    * @param {Object} obj The data we want to store.
+   * @param {Number} expire Optional expiration for the set data.
    * @param {Function} fn An optional callback.
    * @api private
    */
-  fireforget: function (method, key, obj, fn) {
+  fireforget: function (method, key, obj, expire, fn) {
     if ('function' === typeof obj) {
       fn = obj;
       obj = null;
+    }
+
+    if ('function' === typeof expire) {
+      fn = expire;
+      expire = 0;
     }
 
     fn = fn || function nope() {};
@@ -187,7 +208,8 @@ Pagelet.extend({
           if (pagelet.cache.set.length === 2) {
             return fn(undefined, pagelet.cache.set(key, obj));
           } else {
-            return pagelet.cache.set(key, obj, fn);
+            if (!expire) return pagelet.cache.set(key, obj, fn);
+            return pagelet.cache.set(key, obj, expire, fn);
           }
         }
       }
@@ -250,7 +272,7 @@ Pagelet.extend({
           // Store and forget, we should delay the rendering procedure any
           // longer as manually resolving took to damn much time.
           //
-          if (!err) pagelet.fireforget('set', key, data);
+          if (!err) pagelet.fireforget('set', key, data, pagelet.expire.data);
 
           next(err, data);
         });
