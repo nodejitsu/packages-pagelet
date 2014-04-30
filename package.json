@@ -1,6 +1,6 @@
 {
   "name": "packages-pagelet",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Pagelet for rendering a npm package",
   "main": "index.js",
   "scripts": {
@@ -24,17 +24,17 @@
   },
   "homepage": "https://github.com/nodejitsu/packages-pagelet",
   "dependencies": {
-    "async": "0.7.x",
+    "async": "0.8.x",
     "contour": "0.2.x",
     "debug": "0.8.x",
     "ejs": "1.0.x",
     "licenses": "0.0.x",
-    "moment": "2.5.x",
+    "moment": "2.6.x",
     "npm-registry": "0.1.x",
     "pagelet": "0.3.x",
     "renderme": "0.1.x",
     "shrinkwrap": "0.4.x",
-    "ms": "^0.6.2"
+    "ms": "0.6.x"
   },
   "devDependencies": {
     "chai": "1.9.x",
