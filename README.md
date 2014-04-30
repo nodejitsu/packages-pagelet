@@ -188,6 +188,24 @@ Packages.extend({
 
 ---
 
+### expire
+
+This sets the expiration values for the cache. There are 2 properties can be
+configured on this object, the `latest` which expires the latest version number
+for a given package and `data` which expires the resolved data for the resolved
+latest version number. The values should be set in `miliseconds`.
+
+```js
+Packages.extend({
+  expire: {
+    latest: 1000,
+    data: 1000 * 1000 * 1000
+  }
+});
+```
+
+---
+
 So a fully configured and customized `packages-pagelet` should look something
 like this:
 
