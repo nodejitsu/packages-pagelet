@@ -40,11 +40,9 @@ Filecache.prototype.get = function get(name, fn) {
 
     if (data.expire && data.now && data.data) {
       if (Date.now() - data.now > data.expire) return fn();
-
-      data = data.data;
     }
 
-    fn(undefined, data);
+    fn(undefined, data.data);
   });
 };
 
@@ -60,13 +58,9 @@ Filecache.prototype.get = function get(name, fn) {
 Filecache.prototype.set = function set(name, data, expire, fn) {
   if (process.env.NO_CACHE) return fn();
 
-  var value = {
-    expire: expire,
-    data: data,
-    now: Date.now()
-  };
+  data = { expire: expire, data: data, now: Date.now() };
 
-  try { data = JSON.stringify(value, null, 2); }
+  try { data = JSON.stringify(data, null, 2); }
   catch(e) {
     console.error('Failed to store data because of circular data references in %s: %s', name, e.message);
     return fn(e);
