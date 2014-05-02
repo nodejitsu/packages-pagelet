@@ -44,8 +44,8 @@ Pagelet.extend({
    * @api public
    */
   expire: {
-    latest: ms('1 hours'),
-    data: ms('1 week')
+    latest: ms('1 hours') / 1000,
+    data: ms('7 days') / 1000
   },
 
   /**

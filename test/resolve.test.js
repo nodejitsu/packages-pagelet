@@ -6,7 +6,7 @@ describe('resolve', function () {
     , expect = chai.expect
     , data;
 
-  this.timeout(60000);
+  this.timeout(180000);
 
   before(function clean(done) {
     resolve('primus', function resolved(err, obj) {
@@ -27,7 +27,8 @@ describe('resolve', function () {
   it('adds sorted `shrinkwrap` on the data structure', function () {
     expect(data.shrinkwrap).to.be.an('array');
     expect(data.shrinkwrap.length).to.be.above(2);
-    expect(data.shrinkwrap[0].main).to.be.equal(1);
+    expect(data.shrinkwrap[0].depth).to.equal(0);
+    expect(data.shrinkwrap[data.shrinkwrap.length - 1].depth).to.be.above(0);
 
     expect(data.shrinkwrap.dependencies).to.equal(undefined);
     expect(data.shrinkwrap.dependent).to.equal(undefined);
@@ -36,7 +37,7 @@ describe('resolve', function () {
 
   it('adds readme on the data structure', function () {
     expect(data.readme).to.be.a('string');
-    expect(data.readme).to.include('<h1 id="primus">Primus</h1>');
+    expect(data.readme).to.include('</span></a>License</h3>\n\n<p>MIT</p></div>');
   });
 
   it('adds package on the data structure', function () {
