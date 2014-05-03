@@ -273,6 +273,7 @@ Pagelet.extend({
           // longer as manually resolving took to damn much time.
           //
           if (!err) pagelet.fireforget('set', key, data, pagelet.expire.data);
+          if (!data && !err) err = new Error('Missing data, resolving failed');
 
           next(err, data);
         });
