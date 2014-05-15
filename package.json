@@ -30,11 +30,11 @@
     "ejs": "1.0.x",
     "licenses": "0.0.x",
     "moment": "2.6.x",
+    "ms": "0.6.x",
     "npm-registry": "0.1.x",
     "pagelet": "0.5.x",
     "renderme": "0.1.x",
-    "shrinkwrap": "0.4.x",
-    "ms": "0.6.x"
+    "shrinkwrap": "0.4.x"
   },
   "devDependencies": {
     "chai": "1.9.x",
