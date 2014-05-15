@@ -175,11 +175,11 @@
         <% if (package.time && n) { %>
         <table class="more">
           <tbody>
-            <% Object.keys(package.releases).forEach(function (version, index) { %>
-            <tr class="<%= index >= 5 ? 'gone' : '' %>">
+            <% Object.keys(package.releases).forEach(function (version, i) { %>
+            <tr class="<%= i >= 5 ? 'gone' : '' %>">
               <td class="version"><%= version %></td>
-              <td class="date" data-date="<%= package.time[version].full %>">
-                <%= package.time[version].ago %>
+              <td class="date">
+                <%= (package.time[version] || {}).ago || 'unknown' %>
               </td>
               <td class="releaser right">
                 <%= (package.releases[version] || {}).name || 'anonymous' %>
