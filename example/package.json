@@ -6,6 +6,6 @@
   "dependencies": {
     "bigpipe": "*",
     "ejs": "1.0.x",
-    "githulk": "0.0.x"
+    "githulk": "*"
   }
 }
