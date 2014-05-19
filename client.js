@@ -1,4 +1,4 @@
-pipe.once('package::initialise', function (pagelet) {
+pipe.once('package:initialize', function (pagelet) {
   'use strict';
 
   //
