@@ -1,6 +1,6 @@
 {
   "name": "packages-pagelet",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pagelet for rendering a npm package",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "moment": "2.6.x",
     "ms": "0.6.x",
     "npm-registry": "0.1.x",
-    "pagelet": "0.6.x",
+    "pagelet": "0.7.x",
     "renderme": "0.1.x",
     "shrinkwrap": "0.4.x"
   },
