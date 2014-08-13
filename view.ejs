@@ -39,7 +39,7 @@
 
             <% if ('github' in locals && github) { %>
             <div class="part">
-              <a class="stargazers" href="<%= package.homepage && package.homepage.url %>/stargazers" target="_blank">
+              <a class="stargazers" href="https://github.com/<%= package.github.user %>/<%= package.github.repo %>/stargazers" target="_blank">
                 <s class="shift ss-icon ss-social-circle ss-octocat"></s>
                 <%= github.stargazers_count || 0 %>
               </a>
