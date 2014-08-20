@@ -25,18 +25,9 @@ function resolve(name, options, next) {
     options = {};
   }
 
-  options.registry = options.registry || Registry.mirrors.nodejitsu;
-  var githulk = options.githulk || new GitHulk();
-
-  //
-  // Only create a new Registry instance if we've been supplied with a string.
-  //
-  var npm = 'string' !== typeof options.registry
-    ? options.registry
-    : new Registry({
-      registry: options.registry,
-      githulk: githulk
-  });
+  var api = clients(options)
+    , githulk = api.git
+    , npm = api.npm;
 
   var shrinkwrap = new Shrinkwrap({
     githulk: githulk,               // Custom GitHulk instance so it can be re-used.
@@ -69,6 +60,14 @@ function resolve(name, options, next) {
 
       readme: function render(next) {
         readme(data, { githulk: githulk }, next);
+      },
+
+      stats: function downloads() {
+        if (!npm.downloads) return next(undefined, { downloads: 0 });
+
+        npm.downloads.totals('last-day', name, function handle(err, data) {
+          next(err, data = Array.isArray(data) ? data[0] : data);
+        });
       },
 
       github: function render(next) {
@@ -168,8 +167,38 @@ function reduce(data, fn) {
   fn(undefined, data);
 }
 
+/**
+ * Simple helper function to get a working npm and githulk client.
+ *
+ * @param {Object} options Configuration.
+ * @returns {Object} Pre-configured npm and git.
+ * @api private
+ */
+function clients(options) {
+  options = options || {};
+  options.registry = options.registry || Registry.mirrors.nodejitsu;
+
+  var githulk = options.githulk || new GitHulk();
+
+  //
+  // Only create a new Registry instance if we've been supplied with a string.
+  //
+  var npm = 'string' !== typeof options.registry
+    ? options.registry
+    : new Registry({
+      registry: options.registry,
+      githulk: githulk
+  });
+
+  return {
+    git: githulk,
+    npm: npm
+  };
+}
+
 //
 // Expose the methods.
 //
+resolve.clients = clients;
 resolve.reduce = reduce;
 module.exports = resolve;

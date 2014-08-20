@@ -279,6 +279,31 @@ Pagelet.extend({
         });
       });
     });
+  },
+
+  /**
+   * Add some extra pagelets to the page so we can spead the loading time of
+   * this page better.
+   *
+   * @type {Object}
+   * @api private
+   */
+  pagelets: {
+    sparklet: require('sparklet').extend({
+      fetch: function fetch(next) {
+        resolve.clients().npm.downloads.range('last-month', this.params.name, function downloads(err, data) {
+          data = Array.isArray(data) ? data[0] : data;
+          if (err) return next(err);
+
+          return next(err, data.downloads.map(function map(row) {
+            return {
+              value: row.downloads,
+              date: row.date
+            };
+          }));
+        });
+      }
+    })
   }
 }).on(module);
 

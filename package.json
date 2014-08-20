@@ -34,7 +34,8 @@
     "npm-registry": "0.1.x",
     "pagelet": "0.7.x",
     "renderme": "0.1.x",
-    "shrinkwrap": "0.4.x"
+    "shrinkwrap": "0.4.x",
+    "sparklet": "0.0.0"
   },
   "devDependencies": {
     "chai": "1.9.x",
