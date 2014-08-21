@@ -18,7 +18,7 @@ pipe.once('package:initialize', function (pagelet) {
     var element = $(this)
       , text = element.text()
       , state = element.data('state')
-      , parent = element.parents('.fourcol');
+      , parent = element.parents('.sixcol');
 
     //
     // Show the rows that were hidden and remove the table foot as we're already
