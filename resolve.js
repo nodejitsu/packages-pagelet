@@ -1,6 +1,6 @@
 'use strict';
 
-var debug = require('debug')('packages-pagelet:resolve')
+var debug = require('diagnostics')('packages-pagelet:resolve')
   , Shrinkwrap = require('shrinkwrap')
   , Registry = require('npm-registry')
   , readme = require('renderme')

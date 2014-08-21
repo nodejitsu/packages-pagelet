@@ -26,10 +26,10 @@
   "dependencies": {
     "async": "0.9.x",
     "contour": "0.2.x",
-    "debug": "0.8.x",
+    "diagnostics": "0.0.x",
     "ejs": "1.0.x",
     "licenses": "0.0.x",
-    "moment": "2.6.x",
+    "moment": "2.8.x",
     "ms": "0.6.x",
     "npm-registry": "0.1.x",
     "pagelet": "0.7.x",
