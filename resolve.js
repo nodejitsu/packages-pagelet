@@ -62,7 +62,7 @@ function resolve(name, options, next) {
         readme(data, { githulk: githulk }, next);
       },
 
-      stats: function downloads() {
+      stats: function downloads(next) {
         if (!npm.downloads) return next(undefined, { downloads: 0 });
 
         npm.downloads.totals('last-day', name, function handle(err, data) {
