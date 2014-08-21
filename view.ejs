@@ -78,7 +78,7 @@
     </header>
 
     <section class="properties row">
-      <div class="fourcol dependencies">
+      <div class="sixcol dependencies">
         <h2>
           <s class="ss-icon ss-standard ss-grid"></s>
           dependencies
@@ -135,7 +135,7 @@
         <% } %>
       </div>
 
-      <div class="fourcol maintainers">
+      <div class="sixcol maintainers last">
         <h2>
           <s class="ss-icon ss-standard ss-users"></s>
           maintainers
@@ -160,7 +160,7 @@
         <% } %>
       </div>
 
-      <div class="fourcol last versions">
+      <div class="sixcol versions">
         <h2>
           <s class="ss-icon ss-standard ss-layers"></s>
           versions
@@ -189,6 +189,12 @@
           </tbody>
         </table>
         <% } %>
+      </div>
+      
+      <div class="sixcol downloads last">
+        <div data-pagelet="sparklet" class="graph"></div>
+
+        <%= stats.downloads %> Downloads yesterday.
       </div>
     </section>
   </div>

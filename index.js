@@ -128,6 +128,11 @@ Pagelet.extend({
     });
 
     //
+    // Not yet fetched if stats is undefined.
+    //
+    data.stats = data.stats || { downloads: 'Unknown' };
+
+    //
     // Expose helper method.
     //
     data.licenses = licenses.info;
@@ -290,6 +295,9 @@ Pagelet.extend({
    */
   pagelets: {
     sparklet: require('sparklet').extend({
+      xaxis: true,
+      yaxis: true,
+
       fetch: function fetch(next) {
         resolve.clients().npm.downloads.range('last-month', this.params.name, function downloads(err, data) {
           data = Array.isArray(data) ? data[0] : data;
@@ -298,7 +306,7 @@ Pagelet.extend({
           return next(err, data.downloads.map(function map(row) {
             return {
               value: row.downloads,
-              date: row.date
+              date: row.day
             };
           }));
         });
