@@ -1,6 +1,6 @@
 {
   "name": "packages-pagelet",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Pagelet for rendering a npm package",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/nodejitsu/packages-pagelet",
   "dependencies": {
     "async": "0.9.x",
-    "contour": "0.2.x",
+    "contour": "0.6.x",
     "diagnostics": "0.0.x",
     "ejs": "1.0.x",
     "licenses": "0.0.x",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "chai": "1.9.x",
-    "mocha": "1.19.x",
+    "mocha": "1.21.x",
     "pre-commit": "0.0.x"
   }
 }
