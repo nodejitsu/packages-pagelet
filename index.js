@@ -8,6 +8,7 @@ var major = require('./package.json').version.slice(0, 1)
   , Contour = require('contour')
   , moment = require('moment')
   , brand = Contour.get('npm')
+  , async = require('async')
   , ms = require('ms');
 
 Pagelet.extend({
@@ -229,6 +230,23 @@ Pagelet.extend({
   },
 
   /**
+   * Get the current download stats for the given package.
+   *
+   * @param {String} name The name of the package.
+   * @param {Function} next Completion callback.
+   * @api private
+   */
+  downloads: function downloads(name, next) {
+    var npm = this.resolve.clients(this).npm;
+
+    if (!npm.downloads) return next(undefined, { downloads: 0 });
+
+    npm.downloads.totals('last-day', name, function handle(err, data) {
+      next(err, data = Array.isArray(data) ? data[0] : data);
+    });
+  },
+
+  /**
    * Prepare the data for rendering. All the data that is send to the callback
    * is exposed in the template.
    *
@@ -240,49 +258,45 @@ Pagelet.extend({
       , pagelet = this
       , key;
 
-    /**
-     * Add the last additional post processing step to the data. Some things can
-     * only be done on the fly and should not be cached.
-     *
-     * @param {Error} err Optional error argument
-     * @param {Object} data The data.
-     * @api private
-     */
-    function next(err, data) {
+    async.parallel({
+      data: function datas(next) {
+        pagelet.latest(name, function latest(err, version) {
+          if (err) return next(err);
+
+          key = pagelet.key(name, version);
+
+          pagelet.fireforget('get', key, function cached(err, data) {
+            if (!err && data) return next(err, data);
+
+            //
+            // No data or an error, resolve the data structure and attempt to
+            // store it again.
+            //
+            pagelet.resolve(name, {
+              registry: pagelet.registry,
+              githulk: pagelet.githulk
+            }, function resolved(err, data) {
+              //
+              // Store and forget, we should delay the rendering procedure any
+              // longer as manually resolving took to damn much time.
+              //
+              if (!err && data) pagelet.fireforget('set', key, data, pagelet.expire.data);
+              if (!data && !err) err = new Error('Missing data, resolving failed');
+
+              next(err, data);
+            });
+          });
+        });
+      },
+      stats: this.downloads.bind(this, name)
+    }, function next(err, dataset) {
       if (err) return render(err);
 
-      data = data || {};
+      var data = dataset.data;
+      data.stats = dataset.stats;
       data.dependenciesPagelet = pagelet.dependenciesPagelet;
 
       render(undefined, pagelet.postprocess(data));
-    }
-
-    this.latest(name, function latest(err, version) {
-      if (err) return next(err);
-
-      key = pagelet.key(name, version);
-
-      pagelet.fireforget('get', key, function cached(err, data) {
-        if (!err && data) return next(err, data);
-
-        //
-        // No data or an error, resolve the data structure and attempt to
-        // store it again.
-        //
-        pagelet.resolve(name, {
-          registry: pagelet.registry,
-          githulk: pagelet.githulk
-        }, function resolved(err, data) {
-          //
-          // Store and forget, we should delay the rendering procedure any
-          // longer as manually resolving took to damn much time.
-          //
-          if (!err && data) pagelet.fireforget('set', key, data, pagelet.expire.data);
-          if (!data && !err) err = new Error('Missing data, resolving failed');
-
-          next(err, data);
-        });
-      });
     });
   },
 

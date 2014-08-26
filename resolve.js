@@ -62,14 +62,6 @@ function resolve(name, options, next) {
         readme(data, { githulk: githulk }, next);
       },
 
-      stats: function downloads(next) {
-        if (!npm.downloads) return next(undefined, { downloads: 0 });
-
-        npm.downloads.totals('last-day', name, function handle(err, data) {
-          next(err, data = Array.isArray(data) ? data[0] : data);
-        });
-      },
-
       github: function render(next) {
         var project = githulk.project(data);
 
