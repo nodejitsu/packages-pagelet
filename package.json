@@ -1,6 +1,6 @@
 {
   "name": "packages-pagelet",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Pagelet for rendering a npm package",
   "main": "index.js",
   "scripts": {
