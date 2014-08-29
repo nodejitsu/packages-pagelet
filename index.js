@@ -313,11 +313,14 @@ Pagelet.extend({
       yaxis: true,
 
       fetch: function fetch(next) {
-        resolve.clients().npm.downloads.range('last-month', this.params.name, function downloads(err, data) {
+        var name = this.params.name;
+
+        resolve.clients().npm.downloads.range('last-month', name, function downloads(err, data) {
           data = Array.isArray(data) ? data[0] : data;
           if (err) return next(err);
+          if (!data.downloads) console.error('ERR: No data.downloads for '+ name);
 
-          return next(err, data.downloads.map(function map(row) {
+          return next(err, (data.downloads || []).map(function map(row) {
             return {
               value: row.downloads,
               date: row.day
