@@ -258,6 +258,11 @@ Pagelet.extend({
       , pagelet = this
       , key;
 
+    //
+    // Defensive fallback if the parameter was parsed to undefined value.
+    //
+    if (!name) return render(new Error('Missing package name, resolving failed'));
+
     async.parallel({
       data: function datas(next) {
         pagelet.latest(name, function latest(err, version) {
